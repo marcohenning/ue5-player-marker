@@ -2,7 +2,41 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/GameStateBase.h"
+#include "PlayerMarker/Enums/Enums.h"
 #include "PlayerMarkerGameState.generated.h"
+
+
+
+class APlayerMarkerPlayerState;
+
+
+
+USTRUCT()
+struct FPlayerInformation
+{
+	GENERATED_BODY()
+
+	UPROPERTY()
+	APlayerMarkerPlayerState* PlayerState;
+
+	UPROPERTY()
+	ETeam Team;
+};
+
+USTRUCT()
+struct FSquad
+{
+	GENERATED_BODY()
+
+	UPROPERTY()
+	ETeam Team;
+
+	UPROPERTY()
+	ESquadName Name;
+
+	UPROPERTY()
+	TArray<APlayerMarkerPlayerState*> Members;
+};
 
 
 
@@ -11,4 +45,19 @@ class PLAYERMARKER_API APlayerMarkerGameState : public AGameStateBase
 {
 	GENERATED_BODY()
 	
+public:
+	APlayerMarkerGameState();
+	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+
+	UPROPERTY(ReplicatedUsing = OnRep_Players)
+	TArray<FPlayerInformation> Players;
+
+	UPROPERTY(ReplicatedUsing = OnRep_Squads)
+	TArray<FSquad> Squads;
+
+	UFUNCTION()
+	void OnRep_Players();
+
+	UFUNCTION()
+	void OnRep_Squads();
 };

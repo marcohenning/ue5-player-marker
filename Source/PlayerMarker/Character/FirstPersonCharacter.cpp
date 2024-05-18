@@ -3,6 +3,7 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "EnhancedInputComponent.h"
+#include "PlayerMarker/PlayerState/PlayerMarkerPlayerState.h"
 
 
 
@@ -80,4 +81,30 @@ void AFirstPersonCharacter::Look(const FInputActionValue& Value)
 		AddControllerYawInput(LookVector.X);
 		AddControllerPitchInput(LookVector.Y);
 	}
+}
+
+ETeam AFirstPersonCharacter::GetTeam()
+{
+	PlayerMarkerPlayerState = PlayerMarkerPlayerState == nullptr ? GetController()->
+		GetPlayerState<APlayerMarkerPlayerState>() : PlayerMarkerPlayerState;
+
+	if (PlayerMarkerPlayerState)
+	{
+		return PlayerMarkerPlayerState->Team;
+	}
+
+	return ETeam::ET_TeamNone;
+}
+
+ESquadName AFirstPersonCharacter::GetSquad()
+{
+	PlayerMarkerPlayerState = PlayerMarkerPlayerState == nullptr ? GetController()->
+		GetPlayerState<APlayerMarkerPlayerState>() : PlayerMarkerPlayerState;
+
+	if (PlayerMarkerPlayerState)
+	{
+		return PlayerMarkerPlayerState->Squad;
+	}
+
+	return ESquadName::ESN_None;
 }

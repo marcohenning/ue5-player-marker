@@ -2,10 +2,12 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "PlayerMarker/Enums/Enums.h"
 #include "FirstPersonCharacter.generated.h"
 
 
 
+class APlayerMarkerPlayerState;
 class UCameraComponent;
 class UInputMappingContext;
 class UInputAction;
@@ -22,11 +24,16 @@ public:
 	AFirstPersonCharacter();
 	virtual void Tick(float DeltaTime) override;
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+	ETeam GetTeam();
+	ESquadName GetSquad();
 
 protected:
 	virtual void BeginPlay() override;
 
 private:
+	UPROPERTY()
+	APlayerMarkerPlayerState* PlayerMarkerPlayerState;
+
 	/** First person camera */
 	UPROPERTY(VisibleAnywhere)
 	UCameraComponent* FirstPersonCamera;

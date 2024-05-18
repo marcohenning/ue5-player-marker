@@ -47,6 +47,7 @@ class PLAYERMARKER_API APlayerMarkerGameState : public AGameStateBase
 	
 public:
 	APlayerMarkerGameState();
+	void InitializeSquads(ETeam Team);
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 
 	UPROPERTY(ReplicatedUsing = OnRep_Players)
@@ -60,4 +61,10 @@ public:
 
 	UFUNCTION()
 	void OnRep_Squads();
+
+	void AddPlayerToTeam(APlayerMarkerPlayerState* Player, ETeam Team);
+	void AddPlayerToSquad(APlayerMarkerPlayerState* Player, ETeam Team, ESquadName SquadName);
+	void RemovePlayerFromTeam(APlayerMarkerPlayerState* Player);
+	void RemovePlayerFromSquad(APlayerMarkerPlayerState* Player);
+	int32 GetTeamPlayerCount(ETeam Team);
 };

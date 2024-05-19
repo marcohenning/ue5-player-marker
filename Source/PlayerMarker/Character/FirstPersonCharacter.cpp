@@ -6,6 +6,7 @@
 #include "EnhancedInputSubsystems.h"
 #include "EnhancedInputComponent.h"
 #include "PlayerMarker/PlayerState/PlayerMarkerPlayerState.h"
+#include "PlayerMarker/Widgets/PlayerMarkerWidget.h"
 
 
 
@@ -25,6 +26,7 @@ AFirstPersonCharacter::AFirstPersonCharacter()
 	/** Set up player marker widget component */
 	PlayerMarkerWidgetComponent = CreateDefaultSubobject<UWidgetComponent>(TEXT("PlayerMarkerWidgetComponent"));
 	PlayerMarkerWidgetComponent->SetupAttachment(GetMesh(), FName("head"));
+	PlayerMarkerWidgetComponent->SetWorldLocation(FVector(40.0f, 0.0f, 0.0f));
 	PlayerMarkerWidgetComponent->SetWidgetSpace(EWidgetSpace::Screen);
 
 	/** Set movement variables */
@@ -49,6 +51,10 @@ void AFirstPersonCharacter::BeginPlay()
 			Subsystem->AddMappingContext(MappingContextCharacter, 0);
 		}
 	}
+
+	/** Get displayed player marker widget and set player maker component's member variable */
+	PlayerMarkerComponent->PlayerMarkerWidget = Cast<UPlayerMarkerWidget>(
+		PlayerMarkerWidgetComponent->GetUserWidgetObject());
 }
 
 void AFirstPersonCharacter::Tick(float DeltaTime)

@@ -37,21 +37,36 @@ void UPlayerMarkerComponent::HandleDifferentTeam(AFirstPersonCharacter*
 	LocallyControlledCharacter, AFirstPersonCharacter* OtherCharacter)
 {
 	if (PlayerMarkerWidget) { PlayerMarkerWidget->SetUsername("ENEMY"); }
-	RotatePlayerMarkerToPlayerCamera();
 }
 
 void UPlayerMarkerComponent::HandleSameTeamDifferentSquad(AFirstPersonCharacter* 
 	LocallyControlledCharacter, AFirstPersonCharacter* OtherCharacter)
 {
 	if (PlayerMarkerWidget) { PlayerMarkerWidget->SetUsername("TEAM"); }
-	RotatePlayerMarkerToPlayerCamera();
 }
 
 void UPlayerMarkerComponent::HandleSameTeamSameSquad(AFirstPersonCharacter* 
 	LocallyControlledCharacter, AFirstPersonCharacter* OtherCharacter)
 {
 	if (PlayerMarkerWidget) { PlayerMarkerWidget->SetUsername("SQUAD"); }
-	RotatePlayerMarkerToPlayerCamera();
+
+	CalculateWidgetSize(LocallyControlledCharacter, OtherCharacter);
+}
+
+float UPlayerMarkerComponent::CalculateDistance(FVector Start, FVector End)
+{
+	return ((Start - End).Size() / 100.0f);
+}
+
+void UPlayerMarkerComponent::CalculateWidgetSize(AFirstPersonCharacter*
+	LocallyControlledCharacter, AFirstPersonCharacter* OtherCharacter)
+{
+	/** Distance between the two characters in meters */
+	float Distance = CalculateDistance(LocallyControlledCharacter->GetActorLocation(), 
+		OtherCharacter->GetActorLocation());
+	
+	/** Calculating widget size not implemented yet */
+	PlayerMarkerWidgetComponent->SetDrawSize(FVector2D(300.0f, 70.0f));
 }
 
 void UPlayerMarkerComponent::RotatePlayerMarkerToPlayerCamera()

@@ -25,8 +25,9 @@ AFirstPersonCharacter::AFirstPersonCharacter()
 	/** Set up player marker widget component */
 	PlayerMarkerWidgetComponent = CreateDefaultSubobject<UWidgetComponent>(TEXT("PlayerMarkerWidgetComponent"));
 	PlayerMarkerWidgetComponent->SetupAttachment(GetMesh(), FName("head"));
-	PlayerMarkerWidgetComponent->SetWorldLocation(FVector(40.0f, 0.0f, 0.0f));
-	PlayerMarkerWidgetComponent->SetWidgetSpace(EWidgetSpace::World);
+	PlayerMarkerWidgetComponent->SetWorldLocation(FVector(30.0f, 0.0f, 0.0f));
+	PlayerMarkerWidgetComponent->SetWidgetSpace(EWidgetSpace::Screen);
+	PlayerMarkerWidgetComponent->SetDrawAtDesiredSize(false);
 
 	/** Set up player marker component */
 	PlayerMarkerComponent = CreateDefaultSubobject<UPlayerMarkerComponent>(TEXT("PlayerMarkerComponent"));

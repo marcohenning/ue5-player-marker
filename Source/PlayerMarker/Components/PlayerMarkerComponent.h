@@ -33,13 +33,27 @@ private:
 	UPROPERTY()
 	UPlayerMarkerWidget* PlayerMarkerWidget;
 
+	/** Called every tick from character to update the player marker widget */
 	void UpdatePlayerMarker(AFirstPersonCharacter* LocallyControlledCharacter, 
 		AFirstPersonCharacter* OtherCharacter);
+
+	/**
+	* Functions to handle enemy, team mate and squad mate player marker
+	*/
 	void HandleDifferentTeam(AFirstPersonCharacter* LocallyControlledCharacter,
 		AFirstPersonCharacter* OtherCharacter);
 	void HandleSameTeamDifferentSquad(AFirstPersonCharacter* LocallyControlledCharacter,
 		AFirstPersonCharacter* OtherCharacter);
 	void HandleSameTeamSameSquad(AFirstPersonCharacter* LocallyControlledCharacter,
 		AFirstPersonCharacter* OtherCharacter);
+
+	/** Calculates distance in meters between two vectors */
+	float CalculateDistance(FVector Start, FVector End);
+
+	/** Calculates widget size based on distance to locally controlled player */
+	void CalculateWidgetSize(AFirstPersonCharacter* LocallyControlledCharacter, 
+		AFirstPersonCharacter* OtherCharacter);
+
+	/** Currently not used since switched to screen space */
 	void RotatePlayerMarkerToPlayerCamera();
 };

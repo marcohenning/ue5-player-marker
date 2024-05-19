@@ -7,6 +7,7 @@
 
 
 class AFirstPersonCharacter;
+class UWidgetComponent;
 class UPlayerMarkerWidget;
 
 
@@ -24,6 +25,11 @@ protected:
 	virtual void BeginPlay() override;
 
 private:
+	/** Player marker widget component */
+	UPROPERTY()
+	UWidgetComponent* PlayerMarkerWidgetComponent;
+
+	/** Player marker widget */
 	UPROPERTY()
 	UPlayerMarkerWidget* PlayerMarkerWidget;
 
@@ -35,4 +41,5 @@ private:
 		AFirstPersonCharacter* OtherCharacter);
 	void HandleSameTeamSameSquad(AFirstPersonCharacter* LocallyControlledCharacter,
 		AFirstPersonCharacter* OtherCharacter);
+	void RotatePlayerMarkerToPlayerCamera();
 };

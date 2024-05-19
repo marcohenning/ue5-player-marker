@@ -22,14 +22,15 @@ AFirstPersonCharacter::AFirstPersonCharacter()
 	FirstPersonCamera->SetupAttachment(GetMesh(), FName("head"));
 	FirstPersonCamera->bUsePawnControlRotation = true;
 
-	/** Set up player marker component */
-	PlayerMarkerComponent = CreateDefaultSubobject<UPlayerMarkerComponent>(TEXT("PlayerMarkerComponent"));
-
 	/** Set up player marker widget component */
 	PlayerMarkerWidgetComponent = CreateDefaultSubobject<UWidgetComponent>(TEXT("PlayerMarkerWidgetComponent"));
 	PlayerMarkerWidgetComponent->SetupAttachment(GetMesh(), FName("head"));
 	PlayerMarkerWidgetComponent->SetWorldLocation(FVector(40.0f, 0.0f, 0.0f));
-	PlayerMarkerWidgetComponent->SetWidgetSpace(EWidgetSpace::Screen);
+	PlayerMarkerWidgetComponent->SetWidgetSpace(EWidgetSpace::World);
+
+	/** Set up player marker component */
+	PlayerMarkerComponent = CreateDefaultSubobject<UPlayerMarkerComponent>(TEXT("PlayerMarkerComponent"));
+	PlayerMarkerComponent->PlayerMarkerWidgetComponent = PlayerMarkerWidgetComponent;
 
 	/** Set movement variables */
 	GetCharacterMovement()->MaxWalkSpeed = 600.f;

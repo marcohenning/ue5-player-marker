@@ -16,7 +16,7 @@ void APlayerMarkerGameMode::PostLogin(APlayerController* NewPlayer)
 	if (PlayerMarkerGameState && PlayerMarkerPlayerState)
 	{
 		/** Handle sorting players into teams and squads upon joining the game */
-		InitializeSameTeamDifferentSquad(PlayerMarkerGameState, PlayerMarkerPlayerState);
+		InitializeSameTeamSameSquad(PlayerMarkerGameState, PlayerMarkerPlayerState);
 	}
 }
 

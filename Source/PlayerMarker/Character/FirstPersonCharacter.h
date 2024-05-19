@@ -69,6 +69,10 @@ private:
 	UPROPERTY(EditAnywhere, meta = (AllowPrivateAccess = "true"))
 	UInputAction* JumpAction;
 
+	/** Crosshair widget class added to the viewport in beginplay */
+	UPROPERTY(EditAnywhere, meta = (AllowPrivateAccess = "true"))
+	TSubclassOf<UUserWidget> CrosshairWidgetClass;
+
 	/** Called for movement input */
 	void Move(const FInputActionValue& Value);
 

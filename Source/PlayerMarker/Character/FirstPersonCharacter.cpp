@@ -9,6 +9,7 @@
 #include "PlayerMarker/PlayerController/PlayerMarkerPlayerController.h"
 #include "PlayerMarker/Widgets/PlayerMarkerWidget.h"
 #include "Kismet/GameplayStatics.h"
+#include "Blueprint/UserWidget.h"
 
 
 
@@ -59,6 +60,12 @@ void AFirstPersonCharacter::BeginPlay()
 	/** Get displayed player marker widget and set player maker component's member variable */
 	PlayerMarkerComponent->PlayerMarkerWidget = Cast<UPlayerMarkerWidget>(
 		PlayerMarkerWidgetComponent->GetUserWidgetObject());
+
+	/** Add crosshair widget to the viewport */
+	if (CrosshairWidgetClass)
+	{
+		CreateWidget<UUserWidget>(GetWorld(), CrosshairWidgetClass)->AddToViewport();
+	}
 }
 
 void AFirstPersonCharacter::Tick(float DeltaTime)

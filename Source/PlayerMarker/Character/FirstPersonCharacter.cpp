@@ -1,5 +1,7 @@
 #include "FirstPersonCharacter.h"
 #include "Camera/CameraComponent.h"
+#include "Components/WidgetComponent.h"
+#include "PlayerMarker/Components/PlayerMarkerComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "EnhancedInputComponent.h"
@@ -12,13 +14,24 @@ AFirstPersonCharacter::AFirstPersonCharacter()
 	PrimaryActorTick.bCanEverTick = true;
 	bUseControllerRotationYaw = true;
 
+	/** Set up first person camera component */
 	FirstPersonCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FirstPersonCamera"));
 	FirstPersonCamera->SetupAttachment(GetMesh(), FName("head"));
 	FirstPersonCamera->bUsePawnControlRotation = true;
 
+	/** Set up player marker component */
+	PlayerMarkerComponent = CreateDefaultSubobject<UPlayerMarkerComponent>(TEXT("PlayerMarkerComponent"));
+
+	/** Set up player marker widget component */
+	PlayerMarkerWidgetComponent = CreateDefaultSubobject<UWidgetComponent>(TEXT("PlayerMarkerWidgetComponent"));
+	PlayerMarkerWidgetComponent->SetupAttachment(GetMesh(), FName("head"));
+	PlayerMarkerWidgetComponent->SetWidgetSpace(EWidgetSpace::Screen);
+
+	/** Set movement variables */
 	GetCharacterMovement()->MaxWalkSpeed = 600.f;
 	GetCharacterMovement()->AirControl = 1.f;
 
+	/** Set multiplayer replication frequencies */
 	NetUpdateFrequency = 66.f;
 	MinNetUpdateFrequency = 33.f;
 }
@@ -27,7 +40,7 @@ void AFirstPersonCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 
-	/** Adding input mapping context */
+	/** Add input mapping context */
 	if (APlayerController* PlayerController = Cast<APlayerController>(GetController()))
 	{
 		if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<
@@ -45,7 +58,7 @@ void AFirstPersonCharacter::Tick(float DeltaTime)
 
 void AFirstPersonCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
-	/** Setting up input action bindings */
+	/** Set up input action bindings */
 	if (UEnhancedInputComponent* EnhancedInputComponent = Cast<UEnhancedInputComponent>(PlayerInputComponent))
 	{
 		EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &AFirstPersonCharacter::Move);

@@ -9,6 +9,8 @@
 
 class APlayerMarkerPlayerState;
 class UCameraComponent;
+class UWidgetComponent;
+class UPlayerMarkerComponent;
 class UInputMappingContext;
 class UInputAction;
 struct FInputActionValue;
@@ -31,12 +33,21 @@ protected:
 	virtual void BeginPlay() override;
 
 private:
+	/** Player state */
 	UPROPERTY()
 	APlayerMarkerPlayerState* PlayerMarkerPlayerState;
 
-	/** First person camera */
+	/** First person camera component */
 	UPROPERTY(VisibleAnywhere)
 	UCameraComponent* FirstPersonCamera;
+
+	/** Player marker component */
+	UPROPERTY(VisibleAnywhere)
+	UPlayerMarkerComponent* PlayerMarkerComponent;
+
+	/** Player marker widget component */
+	UPROPERTY(EditAnywhere, meta = (AllowPrivateAccess = "true"))
+	UWidgetComponent* PlayerMarkerWidgetComponent;
 
 	/** Character mapping context */
 	UPROPERTY(EditAnywhere, meta = (AllowPrivateAccess = "true"))

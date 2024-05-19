@@ -6,7 +6,9 @@
 #include "EnhancedInputSubsystems.h"
 #include "EnhancedInputComponent.h"
 #include "PlayerMarker/PlayerState/PlayerMarkerPlayerState.h"
+#include "PlayerMarker/PlayerController/PlayerMarkerPlayerController.h"
 #include "PlayerMarker/Widgets/PlayerMarkerWidget.h"
+#include "Kismet/GameplayStatics.h"
 
 
 
@@ -60,6 +62,24 @@ void AFirstPersonCharacter::BeginPlay()
 void AFirstPersonCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+	/** Only update the player marker on not locally controlled players */
+	if (IsLocallyControlled()) { return; }
+
+	/** Initialize pointer to locally controlled character if nullptr */
+	if (LocallyControlledCharacter == nullptr)
+	{
+		LocallyControlledCharacter = Cast<AFirstPersonCharacter>(UGameplayStatics::
+			GetPlayerControllerFromID(this, 0)->GetCharacter());
+	}
+
+	if (LocallyControlledCharacter) { PlayerMarkerComponent->PlayerMarkerWidget->SetUsername("Test"); }
+
+	/** Call update player marker function */
+	/**if (LocallyControlledCharacter && PlayerMarkerComponent)
+	{
+		PlayerMarkerComponent->UpdatePlayerMarker(LocallyControlledCharacter, this);
+	}*/
 }
 
 void AFirstPersonCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)

@@ -6,6 +6,7 @@
 
 
 
+class AFirstPersonCharacter;
 class UPlayerMarkerWidget;
 
 
@@ -18,8 +19,6 @@ class PLAYERMARKER_API UPlayerMarkerComponent : public UActorComponent
 public:	
 	UPlayerMarkerComponent();
 	friend class AFirstPersonCharacter;
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType, 
-		FActorComponentTickFunction* ThisTickFunction) override;
 
 protected:
 	virtual void BeginPlay() override;
@@ -27,4 +26,13 @@ protected:
 private:
 	UPROPERTY()
 	UPlayerMarkerWidget* PlayerMarkerWidget;
+
+	void UpdatePlayerMarker(AFirstPersonCharacter* LocallyControlledCharacter, 
+		AFirstPersonCharacter* OtherCharacter);
+	void HandleDifferentTeam(AFirstPersonCharacter* LocallyControlledCharacter,
+		AFirstPersonCharacter* OtherCharacter);
+	void HandleSameTeamDifferentSquad(AFirstPersonCharacter* LocallyControlledCharacter,
+		AFirstPersonCharacter* OtherCharacter);
+	void HandleSameTeamSameSquad(AFirstPersonCharacter* LocallyControlledCharacter,
+		AFirstPersonCharacter* OtherCharacter);
 };

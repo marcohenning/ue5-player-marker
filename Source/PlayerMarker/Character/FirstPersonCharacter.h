@@ -33,6 +33,10 @@ protected:
 	virtual void BeginPlay() override;
 
 private:
+	/** Locally controlled character */
+	UPROPERTY()
+	AFirstPersonCharacter* LocallyControlledCharacter;
+
 	/** Player state */
 	UPROPERTY()
 	APlayerMarkerPlayerState* PlayerMarkerPlayerState;

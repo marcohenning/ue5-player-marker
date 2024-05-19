@@ -1,11 +1,12 @@
 #include "PlayerMarkerComponent.h"
 #include "PlayerMarker/Widgets/PlayerMarkerWidget.h"
+#include "PlayerMarker/Character/FirstPersonCharacter.h"
 
 
 
 UPlayerMarkerComponent::UPlayerMarkerComponent()
 {
-	PrimaryComponentTick.bCanEverTick = true;
+	PrimaryComponentTick.bCanEverTick = false;
 }
 
 void UPlayerMarkerComponent::BeginPlay()
@@ -13,13 +14,36 @@ void UPlayerMarkerComponent::BeginPlay()
 	Super::BeginPlay();
 }
 
-void UPlayerMarkerComponent::TickComponent(float DeltaTime, ELevelTick TickType, 
-	FActorComponentTickFunction* ThisTickFunction)
+void UPlayerMarkerComponent::UpdatePlayerMarker(AFirstPersonCharacter* 
+	LocallyControlledCharacter, AFirstPersonCharacter* OtherCharacter)
 {
-	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+	if (LocallyControlledCharacter == nullptr || OtherCharacter == nullptr) { return; }
 
-	if (PlayerMarkerWidget)
+	if (LocallyControlledCharacter->GetTeam() == OtherCharacter->GetTeam())
 	{
-		PlayerMarkerWidget->SetUsername("Test");
+		if (LocallyControlledCharacter->GetSquad() == OtherCharacter->GetSquad())
+		{
+			HandleSameTeamSameSquad(LocallyControlledCharacter, OtherCharacter);
+		}
+		else { HandleSameTeamDifferentSquad(LocallyControlledCharacter, OtherCharacter); }
 	}
+	else { HandleDifferentTeam(LocallyControlledCharacter, OtherCharacter); }
+}
+
+void UPlayerMarkerComponent::HandleDifferentTeam(AFirstPersonCharacter* 
+	LocallyControlledCharacter, AFirstPersonCharacter* OtherCharacter)
+{
+	if (PlayerMarkerWidget) { PlayerMarkerWidget->SetUsername("ENEMY"); }
+}
+
+void UPlayerMarkerComponent::HandleSameTeamDifferentSquad(AFirstPersonCharacter* 
+	LocallyControlledCharacter, AFirstPersonCharacter* OtherCharacter)
+{
+	if (PlayerMarkerWidget) { PlayerMarkerWidget->SetUsername("TEAM"); }
+}
+
+void UPlayerMarkerComponent::HandleSameTeamSameSquad(AFirstPersonCharacter* 
+	LocallyControlledCharacter, AFirstPersonCharacter* OtherCharacter)
+{
+	if (PlayerMarkerWidget) { PlayerMarkerWidget->SetUsername("SQUAD"); }
 }

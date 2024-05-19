@@ -73,13 +73,11 @@ void AFirstPersonCharacter::Tick(float DeltaTime)
 			GetPlayerControllerFromID(this, 0)->GetCharacter());
 	}
 
-	if (LocallyControlledCharacter) { PlayerMarkerComponent->PlayerMarkerWidget->SetUsername("Test"); }
-
-	/** Call update player marker function */
-	/**if (LocallyControlledCharacter && PlayerMarkerComponent)
+	/** Call update player marker function on player marker component */
+	if (LocallyControlledCharacter && PlayerMarkerComponent)
 	{
 		PlayerMarkerComponent->UpdatePlayerMarker(LocallyControlledCharacter, this);
-	}*/
+	}
 }
 
 void AFirstPersonCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -124,7 +122,7 @@ void AFirstPersonCharacter::Look(const FInputActionValue& Value)
 
 ETeam AFirstPersonCharacter::GetTeam()
 {
-	PlayerMarkerPlayerState = PlayerMarkerPlayerState == nullptr ? GetController()->
+	PlayerMarkerPlayerState = PlayerMarkerPlayerState == nullptr ? 
 		GetPlayerState<APlayerMarkerPlayerState>() : PlayerMarkerPlayerState;
 
 	if (PlayerMarkerPlayerState)
@@ -137,7 +135,7 @@ ETeam AFirstPersonCharacter::GetTeam()
 
 ESquadName AFirstPersonCharacter::GetSquad()
 {
-	PlayerMarkerPlayerState = PlayerMarkerPlayerState == nullptr ? GetController()->
+	PlayerMarkerPlayerState = PlayerMarkerPlayerState == nullptr ?
 		GetPlayerState<APlayerMarkerPlayerState>() : PlayerMarkerPlayerState;
 
 	if (PlayerMarkerPlayerState)

@@ -21,9 +21,6 @@ public:
 	UPlayerMarkerComponent();
 	friend class AFirstPersonCharacter;
 
-protected:
-	virtual void BeginPlay() override;
-
 private:
 	/** Are player name, colors and icon initalized? */
 	bool bPlayerMarkerInitialized = false;
@@ -35,6 +32,8 @@ private:
 	const float MaxDistance = 40.0f;
 	const float MinRenderScale = 0.333f;
 	const float MaxRenderScale = 1.0f;
+
+	const int32 SquadMaxHealthBarDistance = 30;
 
 	/** Player marker widget component */
 	UPROPERTY()

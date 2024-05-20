@@ -13,11 +13,12 @@ void UPlayerMarkerWidget::SetPlayerName(FString NewUsername)
 	}
 }
 
-void UPlayerMarkerWidget::SetDistance(FString NewDistance)
+void UPlayerMarkerWidget::SetDistance(int32 Distance)
 {
 	if (TextDistance)
 	{
-		TextDistance->SetText(FText::FromString(NewDistance));
+		FString DistanceText = FString::Printf(TEXT("%d m"), Distance);
+		TextDistance->SetText(FText::FromString(DistanceText));
 	}
 }
 
@@ -56,5 +57,37 @@ void UPlayerMarkerWidget::SetIcon(UTexture2D* Icon)
 	if (ImageMarkerIcon && Icon)
 	{
 		ImageMarkerIcon->SetBrushFromTexture(Icon);
+	}
+}
+
+void UPlayerMarkerWidget::ShowDistance()
+{
+	if (TextDistance && TextDistance->GetVisibility() != ESlateVisibility::Visible)
+	{
+		TextDistance->SetVisibility(ESlateVisibility::Visible);
+	}
+}
+
+void UPlayerMarkerWidget::ShowHealthBar()
+{
+	if (HealthBar && HealthBar->GetVisibility() != ESlateVisibility::Visible)
+	{
+		HealthBar->SetVisibility(ESlateVisibility::Visible);
+	}
+}
+
+void UPlayerMarkerWidget::HideDistance()
+{
+	if (TextDistance && TextDistance->GetVisibility() != ESlateVisibility::Collapsed)
+	{
+		TextDistance->SetVisibility(ESlateVisibility::Collapsed);
+	}
+}
+
+void UPlayerMarkerWidget::HideHealthBar()
+{
+	if (HealthBar && HealthBar->GetVisibility() != ESlateVisibility::Collapsed)
+	{
+		HealthBar->SetVisibility(ESlateVisibility::Collapsed);
 	}
 }

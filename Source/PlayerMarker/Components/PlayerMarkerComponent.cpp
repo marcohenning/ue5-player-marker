@@ -13,11 +13,6 @@ UPlayerMarkerComponent::UPlayerMarkerComponent()
 	PrimaryComponentTick.bCanEverTick = false;
 }
 
-void UPlayerMarkerComponent::BeginPlay()
-{
-	Super::BeginPlay();
-}
-
 void UPlayerMarkerComponent::InitializePlayerMarkerComponent(AFirstPersonCharacter* 
 	LocallyControlledCharacter, AFirstPersonCharacter* OtherCharacter)
 {
@@ -110,6 +105,24 @@ void UPlayerMarkerComponent::HandleSameTeamSameSquad(AFirstPersonCharacter*
 	if (PlayerMarkerWidget == nullptr) { return; }
 
 	CalculateWidgetSize(LocallyControlledCharacter, OtherCharacter);
+
+	/** Distance between the two characters in meters rounded to int32 */
+	int32 Distance = FGenericPlatformMath::RoundToInt(CalculateDistance(
+		LocallyControlledCharacter->GetActorLocation(), OtherCharacter->GetActorLocation()));
+
+	/** Show health bar if close enough */
+	if (Distance < SquadMaxHealthBarDistance)
+	{
+		PlayerMarkerWidget->ShowHealthBar();
+		PlayerMarkerWidget->HideDistance();
+	}
+	/** Show distance instead of health bar if not close enough */
+	else
+	{
+		PlayerMarkerWidget->SetDistance(Distance);
+		PlayerMarkerWidget->ShowDistance();
+		PlayerMarkerWidget->HideHealthBar();
+	}
 }
 
 float UPlayerMarkerComponent::CalculateDistance(FVector Start, FVector End)

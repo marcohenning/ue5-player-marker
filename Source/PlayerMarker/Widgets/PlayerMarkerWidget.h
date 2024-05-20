@@ -56,9 +56,17 @@ public:
 	* Setters for different widget properties
 	*/
 	void SetPlayerName(FString NewUsername);
-	void SetDistance(FString NewDistance);
+	void SetDistance(int32 Distance);
 	void SetPlayerNameColor(FLinearColor Color);
 	void SetDistanceColor(FLinearColor Color);
 	void SetHealthBarColor(FLinearColor Color, FLinearColor ColorTransparent);
 	void SetIcon(UTexture2D* Icon);
+
+	/**
+	* Functions to show and hide elements
+	*/
+	void ShowDistance();
+	void ShowHealthBar();
+	void HideDistance();
+	void HideHealthBar();
 };

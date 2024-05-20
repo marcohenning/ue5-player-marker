@@ -2,6 +2,7 @@
 #include "Components/TextBlock.h"
 #include "Components/Progressbar.h"
 #include "Components/Image.h"
+#include "Components/SizeBox.h"
 
 
 
@@ -70,9 +71,9 @@ void UPlayerMarkerWidget::ShowDistance()
 
 void UPlayerMarkerWidget::ShowHealthBar()
 {
-	if (HealthBar && HealthBar->GetVisibility() != ESlateVisibility::Visible)
+	if (SizeBoxHealthBar && SizeBoxHealthBar->GetVisibility() != ESlateVisibility::Visible)
 	{
-		HealthBar->SetVisibility(ESlateVisibility::Visible);
+		SizeBoxHealthBar->SetVisibility(ESlateVisibility::Visible);
 	}
 }
 
@@ -86,8 +87,8 @@ void UPlayerMarkerWidget::HideDistance()
 
 void UPlayerMarkerWidget::HideHealthBar()
 {
-	if (HealthBar && HealthBar->GetVisibility() != ESlateVisibility::Collapsed)
+	if (SizeBoxHealthBar && SizeBoxHealthBar->GetVisibility() != ESlateVisibility::Collapsed)
 	{
-		HealthBar->SetVisibility(ESlateVisibility::Collapsed);
+		SizeBoxHealthBar->SetVisibility(ESlateVisibility::Collapsed);
 	}
 }

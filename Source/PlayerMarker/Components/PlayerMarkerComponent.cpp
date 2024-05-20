@@ -87,24 +87,18 @@ void UPlayerMarkerComponent::HandleDifferentTeam(AFirstPersonCharacter*
 	LocallyControlledCharacter, AFirstPersonCharacter* OtherCharacter)
 {
 	if (PlayerMarkerWidget == nullptr) { return; }
-
-	CalculateWidgetSize(LocallyControlledCharacter, OtherCharacter);
 }
 
 void UPlayerMarkerComponent::HandleSameTeamDifferentSquad(AFirstPersonCharacter* 
 	LocallyControlledCharacter, AFirstPersonCharacter* OtherCharacter)
 {
 	if (PlayerMarkerWidget == nullptr) { return; }
-
-	CalculateWidgetSize(LocallyControlledCharacter, OtherCharacter);
 }
 
 void UPlayerMarkerComponent::HandleSameTeamSameSquad(AFirstPersonCharacter* 
 	LocallyControlledCharacter, AFirstPersonCharacter* OtherCharacter)
 {
 	if (PlayerMarkerWidget == nullptr) { return; }
-
-	CalculateWidgetSize(LocallyControlledCharacter, OtherCharacter);
 
 	/** Distance between the two characters in meters rounded to int32 */
 	int32 Distance = FGenericPlatformMath::RoundToInt(CalculateDistance(

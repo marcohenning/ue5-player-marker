@@ -9,6 +9,8 @@
 class UTextBlock;
 class UProgressBar;
 class UImage;
+class USizeBox;
+
 
 
 UCLASS()
@@ -48,6 +50,9 @@ public:
 
 	UPROPERTY(meta = (BindWidget))
 	UProgressBar* HealthBar;
+
+	UPROPERTY(meta = (BindWidget))
+	USizeBox* SizeBoxHealthBar;
 
 	UPROPERTY(meta = (BindWidget))
 	UImage* ImageMarkerIcon;

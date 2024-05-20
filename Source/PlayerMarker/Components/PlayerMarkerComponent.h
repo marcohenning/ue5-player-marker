@@ -33,7 +33,7 @@ private:
 	const float MinRenderScale = 0.333f;
 	const float MaxRenderScale = 1.0f;
 
-	const int32 SquadMaxHealthBarDistance = 30;
+	const int32 SquadMaxHealthBarDistance = 15;
 
 	/** Player marker widget component */
 	UPROPERTY()

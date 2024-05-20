@@ -25,6 +25,9 @@ protected:
 	virtual void BeginPlay() override;
 
 private:
+	/** Are player name, colors and icon initalized? */
+	bool bPlayerMarkerInitialized = false;
+
 	/**
 	* Variables used for calculating widget render scale based on distance
 	*/
@@ -40,6 +43,10 @@ private:
 	/** Player marker widget */
 	UPROPERTY()
 	UPlayerMarkerWidget* PlayerMarkerWidget;
+
+	/** Called once at the start to initalize player name, colors and icon */
+	void InitializePlayerMarkerComponent(AFirstPersonCharacter* LocallyControlledCharacter,
+		AFirstPersonCharacter* OtherCharacter);
 
 	/** Called every tick from character to update the player marker widget */
 	void UpdatePlayerMarker(AFirstPersonCharacter* LocallyControlledCharacter, 

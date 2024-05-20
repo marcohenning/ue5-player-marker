@@ -2,6 +2,7 @@
 #include "Components/WidgetComponent.h"
 #include "PlayerMarker/Widgets/PlayerMarkerWidget.h"
 #include "PlayerMarker/Character/FirstPersonCharacter.h"
+#include "PlayerMarker/PlayerState/PlayerMarkerPlayerState.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "Kismet/GameplayStatics.h"
 
@@ -17,11 +18,65 @@ void UPlayerMarkerComponent::BeginPlay()
 	Super::BeginPlay();
 }
 
-void UPlayerMarkerComponent::UpdatePlayerMarker(AFirstPersonCharacter* 
+void UPlayerMarkerComponent::InitializePlayerMarkerComponent(AFirstPersonCharacter* 
+	LocallyControlledCharacter, AFirstPersonCharacter* OtherCharacter)
+{
+	if (PlayerMarkerWidget == nullptr) { return; }
+
+	/** Get player state to access player name */
+	APlayerMarkerPlayerState* OtherCharacterPlayerState = OtherCharacter->
+		GetPlayerState<APlayerMarkerPlayerState>();
+
+	/** Set player name */
+	if (OtherCharacterPlayerState)
+	{
+		PlayerMarkerWidget->SetPlayerName(OtherCharacterPlayerState->GetPlayerName());
+	}
+
+	/** Distance is only shown on squad mates so initialize it with color squad */
+	PlayerMarkerWidget->SetDistanceColor(PlayerMarkerWidget->ColorSquad);
+
+	/** Compare team and squad of the two players and handle initializing the widget accordingly */
+	if (LocallyControlledCharacter->GetTeam() == OtherCharacter->GetTeam())
+	{
+		if (LocallyControlledCharacter->GetSquad() == OtherCharacter->GetSquad())
+		{
+			PlayerMarkerWidget->SetPlayerNameColor(PlayerMarkerWidget->ColorSquad);
+			PlayerMarkerWidget->SetHealthBarColor(PlayerMarkerWidget->ColorSquad,
+				PlayerMarkerWidget->ColorSquadTransparent);
+			PlayerMarkerWidget->SetIcon(PlayerMarkerWidget->IconSquad);
+		}
+		else
+		{
+			PlayerMarkerWidget->SetPlayerNameColor(PlayerMarkerWidget->ColorTeam);
+			PlayerMarkerWidget->SetHealthBarColor(PlayerMarkerWidget->ColorTeam,
+				PlayerMarkerWidget->ColorTeamTransparent);
+			PlayerMarkerWidget->SetIcon(PlayerMarkerWidget->IconTeam);
+		}
+	}
+	else
+	{
+		PlayerMarkerWidget->SetPlayerNameColor(PlayerMarkerWidget->ColorEnemy);
+		PlayerMarkerWidget->SetHealthBarColor(PlayerMarkerWidget->ColorEnemy,
+			PlayerMarkerWidget->ColorEnemyTransparent);
+		PlayerMarkerWidget->SetIcon(PlayerMarkerWidget->IconEnemy);
+	}
+
+	bPlayerMarkerInitialized = true;
+}
+
+void UPlayerMarkerComponent::UpdatePlayerMarker(AFirstPersonCharacter*
 	LocallyControlledCharacter, AFirstPersonCharacter* OtherCharacter)
 {
 	if (LocallyControlledCharacter == nullptr || OtherCharacter == nullptr) { return; }
 
+	/** Initialize player marker component */
+	if (!bPlayerMarkerInitialized)
+	{
+		InitializePlayerMarkerComponent(LocallyControlledCharacter, OtherCharacter);
+	}
+
+	/** Compare team and squad of the two players and handle updating the widget accordingly */
 	if (LocallyControlledCharacter->GetTeam() == OtherCharacter->GetTeam())
 	{
 		if (LocallyControlledCharacter->GetSquad() == OtherCharacter->GetSquad())
@@ -39,11 +94,6 @@ void UPlayerMarkerComponent::HandleDifferentTeam(AFirstPersonCharacter*
 	if (PlayerMarkerWidget == nullptr) { return; }
 
 	CalculateWidgetSize(LocallyControlledCharacter, OtherCharacter);
-	PlayerMarkerWidget->SetPlayerName("ENEMY");
-	PlayerMarkerWidget->SetPlayerNameColor(PlayerMarkerWidget->ColorEnemy);
-	PlayerMarkerWidget->SetHealthBarColor(PlayerMarkerWidget->ColorEnemy, 
-		PlayerMarkerWidget->ColorEnemyTransparent);
-	PlayerMarkerWidget->SetIcon(PlayerMarkerWidget->IconEnemy);
 }
 
 void UPlayerMarkerComponent::HandleSameTeamDifferentSquad(AFirstPersonCharacter* 
@@ -52,11 +102,6 @@ void UPlayerMarkerComponent::HandleSameTeamDifferentSquad(AFirstPersonCharacter*
 	if (PlayerMarkerWidget == nullptr) { return; }
 
 	CalculateWidgetSize(LocallyControlledCharacter, OtherCharacter);
-	PlayerMarkerWidget->SetPlayerName("TEAM");
-	PlayerMarkerWidget->SetPlayerNameColor(PlayerMarkerWidget->ColorTeam);
-	PlayerMarkerWidget->SetHealthBarColor(PlayerMarkerWidget->ColorTeam,
-		PlayerMarkerWidget->ColorTeamTransparent);
-	PlayerMarkerWidget->SetIcon(PlayerMarkerWidget->IconTeam);
 }
 
 void UPlayerMarkerComponent::HandleSameTeamSameSquad(AFirstPersonCharacter* 
@@ -65,11 +110,6 @@ void UPlayerMarkerComponent::HandleSameTeamSameSquad(AFirstPersonCharacter*
 	if (PlayerMarkerWidget == nullptr) { return; }
 
 	CalculateWidgetSize(LocallyControlledCharacter, OtherCharacter);
-	PlayerMarkerWidget->SetPlayerName("SQUAD");
-	PlayerMarkerWidget->SetPlayerNameColor(PlayerMarkerWidget->ColorSquad);
-	PlayerMarkerWidget->SetHealthBarColor(PlayerMarkerWidget->ColorSquad,
-		PlayerMarkerWidget->ColorSquadTransparent);
-	PlayerMarkerWidget->SetIcon(PlayerMarkerWidget->IconSquad);
 }
 
 float UPlayerMarkerComponent::CalculateDistance(FVector Start, FVector End)

@@ -5,12 +5,20 @@
 #include "PlayerMarker/PlayerState/PlayerMarkerPlayerState.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "Kismet/GameplayStatics.h"
+#include "Net/UnrealNetwork.h"
 
 
 
 UPlayerMarkerComponent::UPlayerMarkerComponent()
 {
 	PrimaryComponentTick.bCanEverTick = false;
+}
+
+void UPlayerMarkerComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+
+	DOREPLIFETIME(UPlayerMarkerComponent, bSpotted);
 }
 
 bool UPlayerMarkerComponent::InitializePlayerMarkerComponent(AFirstPersonCharacter* 
@@ -147,4 +155,9 @@ void UPlayerMarkerComponent::CalculateWidgetSize(AFirstPersonCharacter*
 	}
 
 	PlayerMarkerWidget->SetRenderScale(FVector2D(RenderScale, RenderScale));
+}
+
+void UPlayerMarkerComponent::Spot()
+{
+
 }

@@ -20,10 +20,16 @@ class PLAYERMARKER_API UPlayerMarkerComponent : public UActorComponent
 public:	
 	UPlayerMarkerComponent();
 	friend class AFirstPersonCharacter;
+	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& 
+		OutLifetimeProps) const override;
 
 private:
 	/** Are player name, colors and icon initalized? */
 	bool bPlayerMarkerInitialized = false;
+
+	/** Is player spotted? */
+	UPROPERTY(Replicated)
+	bool bSpotted = false;
 
 	/**
 	* Variables used for calculating widget render scale based on distance
@@ -67,4 +73,10 @@ private:
 	/** Calculates widget size based on distance to locally controlled player */
 	void CalculateWidgetSize(AFirstPersonCharacter* LocallyControlledCharacter, 
 		AFirstPersonCharacter* OtherCharacter);
+
+	/**
+	* Called by the server when this component's character is spotted.
+	* Handles setting bSpotted to true and (re)starting the timer to reset it.
+	*/
+	void Spot();
 };

@@ -69,6 +69,10 @@ private:
 	UPROPERTY(EditAnywhere, meta = (AllowPrivateAccess = "true"))
 	UInputAction* JumpAction;
 
+	/** Input action for spotting */
+	UPROPERTY(EditAnywhere, meta = (AllowPrivateAccess = "true"))
+	UInputAction* SpotAction;
+
 	/** Crosshair widget class added to the viewport in beginplay */
 	UPROPERTY(EditAnywhere, meta = (AllowPrivateAccess = "true"))
 	TSubclassOf<UUserWidget> CrosshairWidgetClass;
@@ -78,4 +82,11 @@ private:
 
 	/** Called for looking input */
 	void Look(const FInputActionValue& Value);
+
+	/** Called when the spot button is pressed */
+	void SpotButtonPressed();
+
+	/** Server rpc to validate spotting */
+	UFUNCTION(Server, Unreliable)
+	void ServerRequestSpot(FVector ViewportCenterWorldPosition, FVector ViewportCenterWorldDirection);
 };

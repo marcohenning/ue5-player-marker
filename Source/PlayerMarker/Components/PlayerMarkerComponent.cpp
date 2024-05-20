@@ -36,21 +36,29 @@ void UPlayerMarkerComponent::UpdatePlayerMarker(AFirstPersonCharacter*
 void UPlayerMarkerComponent::HandleDifferentTeam(AFirstPersonCharacter* 
 	LocallyControlledCharacter, AFirstPersonCharacter* OtherCharacter)
 {
-	if (PlayerMarkerWidget) { PlayerMarkerWidget->SetUsername("ENEMY"); }
+	if (PlayerMarkerWidget == nullptr) { return; }
+
+	CalculateWidgetSize(LocallyControlledCharacter, OtherCharacter);
+	PlayerMarkerWidget->SetPlayerName("ENEMY");
+	PlayerMarkerWidget->SetPlayerNameColor(PlayerMarkerWidget->ColorEnemy);
 }
 
 void UPlayerMarkerComponent::HandleSameTeamDifferentSquad(AFirstPersonCharacter* 
 	LocallyControlledCharacter, AFirstPersonCharacter* OtherCharacter)
 {
-	if (PlayerMarkerWidget) { PlayerMarkerWidget->SetUsername("TEAM"); }
+	if (PlayerMarkerWidget == nullptr) { return; }
+
+	CalculateWidgetSize(LocallyControlledCharacter, OtherCharacter);
+	PlayerMarkerWidget->SetPlayerName("TEAM");
 }
 
 void UPlayerMarkerComponent::HandleSameTeamSameSquad(AFirstPersonCharacter* 
 	LocallyControlledCharacter, AFirstPersonCharacter* OtherCharacter)
 {
-	if (PlayerMarkerWidget) { PlayerMarkerWidget->SetUsername("SQUAD"); }
+	if (PlayerMarkerWidget == nullptr) { return; }
 
 	CalculateWidgetSize(LocallyControlledCharacter, OtherCharacter);
+	PlayerMarkerWidget->SetPlayerName("SQUAD");
 }
 
 float UPlayerMarkerComponent::CalculateDistance(FVector Start, FVector End)

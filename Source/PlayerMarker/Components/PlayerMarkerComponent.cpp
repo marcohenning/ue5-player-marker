@@ -41,6 +41,9 @@ void UPlayerMarkerComponent::HandleDifferentTeam(AFirstPersonCharacter*
 	CalculateWidgetSize(LocallyControlledCharacter, OtherCharacter);
 	PlayerMarkerWidget->SetPlayerName("ENEMY");
 	PlayerMarkerWidget->SetPlayerNameColor(PlayerMarkerWidget->ColorEnemy);
+	PlayerMarkerWidget->SetHealthBarColor(PlayerMarkerWidget->ColorEnemy, 
+		PlayerMarkerWidget->ColorEnemyTransparent);
+	PlayerMarkerWidget->SetIcon(PlayerMarkerWidget->IconEnemy);
 }
 
 void UPlayerMarkerComponent::HandleSameTeamDifferentSquad(AFirstPersonCharacter* 
@@ -50,6 +53,10 @@ void UPlayerMarkerComponent::HandleSameTeamDifferentSquad(AFirstPersonCharacter*
 
 	CalculateWidgetSize(LocallyControlledCharacter, OtherCharacter);
 	PlayerMarkerWidget->SetPlayerName("TEAM");
+	PlayerMarkerWidget->SetPlayerNameColor(PlayerMarkerWidget->ColorTeam);
+	PlayerMarkerWidget->SetHealthBarColor(PlayerMarkerWidget->ColorTeam,
+		PlayerMarkerWidget->ColorTeamTransparent);
+	PlayerMarkerWidget->SetIcon(PlayerMarkerWidget->IconTeam);
 }
 
 void UPlayerMarkerComponent::HandleSameTeamSameSquad(AFirstPersonCharacter* 
@@ -59,6 +66,10 @@ void UPlayerMarkerComponent::HandleSameTeamSameSquad(AFirstPersonCharacter*
 
 	CalculateWidgetSize(LocallyControlledCharacter, OtherCharacter);
 	PlayerMarkerWidget->SetPlayerName("SQUAD");
+	PlayerMarkerWidget->SetPlayerNameColor(PlayerMarkerWidget->ColorSquad);
+	PlayerMarkerWidget->SetHealthBarColor(PlayerMarkerWidget->ColorSquad,
+		PlayerMarkerWidget->ColorSquadTransparent);
+	PlayerMarkerWidget->SetIcon(PlayerMarkerWidget->IconSquad);
 }
 
 float UPlayerMarkerComponent::CalculateDistance(FVector Start, FVector End)

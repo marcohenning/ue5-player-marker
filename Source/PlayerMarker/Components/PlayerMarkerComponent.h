@@ -25,6 +25,14 @@ protected:
 	virtual void BeginPlay() override;
 
 private:
+	/**
+	* Variables used for calculating widget render scale based on distance
+	*/
+	const float MinDistance = 0.0f;
+	const float MaxDistance = 40.0f;
+	const float MinRenderScale = 0.333f;
+	const float MaxRenderScale = 1.0f;
+
 	/** Player marker widget component */
 	UPROPERTY()
 	UWidgetComponent* PlayerMarkerWidgetComponent;
@@ -53,7 +61,4 @@ private:
 	/** Calculates widget size based on distance to locally controlled player */
 	void CalculateWidgetSize(AFirstPersonCharacter* LocallyControlledCharacter, 
 		AFirstPersonCharacter* OtherCharacter);
-
-	/** Currently not used since switched to screen space */
-	void RotatePlayerMarkerToPlayerCamera();
 };

@@ -64,23 +64,17 @@ void UPlayerMarkerComponent::CalculateWidgetSize(AFirstPersonCharacter*
 	/** Distance between the two characters in meters */
 	float Distance = CalculateDistance(LocallyControlledCharacter->GetActorLocation(), 
 		OtherCharacter->GetActorLocation());
-	
-	/** Calculating widget size not implemented yet */
-	PlayerMarkerWidgetComponent->SetDrawSize(FVector2D(300.0f, 70.0f));
-}
 
-void UPlayerMarkerComponent::RotatePlayerMarkerToPlayerCamera()
-{
-	/** Get player marker widget location */
-	const FVector PlayerMarkerLocation = PlayerMarkerWidgetComponent->GetComponentLocation();
-	/** Get location of locally controlled character's camera */
-	const FVector LocalCharacterCameraLocation = UGameplayStatics::
-		GetPlayerCameraManager(GetWorld(), 0)->GetTransformComponent()->GetComponentLocation();
+	/** Calculating render scale based on distance */
+	float RenderScale;
 
-	/** Calculate rotation at which the widget faces the player's camera */
-	const FRotator LookAtRotation = UKismetMathLibrary::FindLookAtRotation(
-		PlayerMarkerLocation, LocalCharacterCameraLocation);
+	if (Distance <= MinDistance) { RenderScale = MaxRenderScale; }
+	else if (Distance >= MaxDistance) { RenderScale = MinRenderScale; }
+	else
+	{
+		RenderScale = FMath::Lerp(MaxRenderScale, MinRenderScale, Distance / MaxDistance);
+		RenderScale = FMath::Clamp(RenderScale, MinRenderScale, MaxRenderScale);
+	}
 
-	/** Set player marker widget component rotation */
-	PlayerMarkerWidgetComponent->SetWorldRotation(LookAtRotation);
+	PlayerMarkerWidget->SetRenderScale(FVector2D(RenderScale, RenderScale));
 }

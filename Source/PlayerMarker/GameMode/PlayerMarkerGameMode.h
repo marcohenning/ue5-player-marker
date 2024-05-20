@@ -2,6 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
+#include "PlayerMarker/Enums/Enums.h"
 #include "PlayerMarkerGameMode.generated.h"
 
 
@@ -19,6 +20,9 @@ class PLAYERMARKER_API APlayerMarkerGameMode : public AGameModeBase
 public:
 	virtual void PostLogin(APlayerController* NewPlayer) override;
 	virtual void Logout(AController* Exiting) override;
+
+	UPROPERTY(EditAnywhere)
+	ETeamSort TeamSort = ETeamSort::ETS_Enemy;
 
 private:
 	/**

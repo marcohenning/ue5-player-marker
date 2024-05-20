@@ -16,7 +16,15 @@ void APlayerMarkerGameMode::PostLogin(APlayerController* NewPlayer)
 	if (PlayerMarkerGameState && PlayerMarkerPlayerState)
 	{
 		/** Handle sorting players into teams and squads upon joining the game */
-		InitializeSameTeamDifferentSquad(PlayerMarkerGameState, PlayerMarkerPlayerState);
+		if (TeamSort == ETeamSort::ETS_Enemy)
+		{
+			InitializeDifferentTeam(PlayerMarkerGameState, PlayerMarkerPlayerState);
+		}
+		else if (TeamSort == ETeamSort::ETS_Team)
+		{
+			InitializeSameTeamDifferentSquad(PlayerMarkerGameState, PlayerMarkerPlayerState);
+		}
+		else { InitializeSameTeamSameSquad(PlayerMarkerGameState, PlayerMarkerPlayerState); }
 	}
 }
 

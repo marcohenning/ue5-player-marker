@@ -23,3 +23,11 @@ enum class ESquadName : uint8
 	ESN_Hotel,
 	ESN_None
 };
+
+UENUM(BlueprintType)
+enum class ETeamSort : uint8
+{
+	ETS_Enemy UMETA(DisplayName = "Enemy"),
+	ETS_Team UMETA(DisplayName = "Team"),
+	ETS_Squad UMETA(DisplayName = "Squad")
+};

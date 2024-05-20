@@ -44,7 +44,7 @@ private:
 	UPlayerMarkerWidget* PlayerMarkerWidget;
 
 	/** Called once at the start to initalize player name, colors and icon */
-	void InitializePlayerMarkerComponent(AFirstPersonCharacter* LocallyControlledCharacter,
+	bool InitializePlayerMarkerComponent(AFirstPersonCharacter* LocallyControlledCharacter,
 		AFirstPersonCharacter* OtherCharacter);
 
 	/** Called every tick from character to update the player marker widget */

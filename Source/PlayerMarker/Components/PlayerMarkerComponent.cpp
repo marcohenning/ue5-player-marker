@@ -13,20 +13,23 @@ UPlayerMarkerComponent::UPlayerMarkerComponent()
 	PrimaryComponentTick.bCanEverTick = false;
 }
 
-void UPlayerMarkerComponent::InitializePlayerMarkerComponent(AFirstPersonCharacter* 
+bool UPlayerMarkerComponent::InitializePlayerMarkerComponent(AFirstPersonCharacter* 
 	LocallyControlledCharacter, AFirstPersonCharacter* OtherCharacter)
 {
-	if (PlayerMarkerWidget == nullptr) { return; }
+	if (PlayerMarkerWidget == nullptr) { return false; }
 
 	/** Get player state to access player name */
 	APlayerMarkerPlayerState* OtherCharacterPlayerState = OtherCharacter->
 		GetPlayerState<APlayerMarkerPlayerState>();
 
-	/** Set player name */
-	if (OtherCharacterPlayerState)
+	/** Return false if player state is nullptr or team is none */
+	if (OtherCharacterPlayerState == nullptr || LocallyControlledCharacter->GetTeam() == 
+		ETeam::ET_TeamNone || OtherCharacter->GetTeam() == ETeam::ET_TeamNone)
 	{
-		PlayerMarkerWidget->SetPlayerName(OtherCharacterPlayerState->GetPlayerName());
+		return false;
 	}
+
+	PlayerMarkerWidget->SetPlayerName(OtherCharacterPlayerState->GetPlayerName());
 
 	/** Distance is only shown on squad mates so initialize it with color squad */
 	PlayerMarkerWidget->SetDistanceColor(PlayerMarkerWidget->ColorSquad);
@@ -58,6 +61,7 @@ void UPlayerMarkerComponent::InitializePlayerMarkerComponent(AFirstPersonCharact
 	}
 
 	bPlayerMarkerInitialized = true;
+	return true;
 }
 
 void UPlayerMarkerComponent::UpdatePlayerMarker(AFirstPersonCharacter*
@@ -68,7 +72,7 @@ void UPlayerMarkerComponent::UpdatePlayerMarker(AFirstPersonCharacter*
 	/** Initialize player marker component */
 	if (!bPlayerMarkerInitialized)
 	{
-		InitializePlayerMarkerComponent(LocallyControlledCharacter, OtherCharacter);
+		if (!InitializePlayerMarkerComponent(LocallyControlledCharacter, OtherCharacter)) { return; }
 	}
 
 	/** Compare team and squad of the two players and handle updating the widget accordingly */

@@ -45,6 +45,7 @@ private:
 	const float MinRenderScale = 0.333f;
 	const float MaxRenderScale = 1.0f;
 
+	const int32 EnemyMaxDistance = 10;
 	const int32 TeamMaxDistance = 20;
 	const int32 SquadMaxHealthBarDistance = 15;
 

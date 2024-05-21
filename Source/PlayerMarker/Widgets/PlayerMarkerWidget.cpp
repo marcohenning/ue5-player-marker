@@ -85,6 +85,14 @@ void UPlayerMarkerWidget::ShowHealthBar()
 	}
 }
 
+void UPlayerMarkerWidget::ShowImageMarkerIcon()
+{
+	if (ImageMarkerIcon && ImageMarkerIcon->GetVisibility() != ESlateVisibility::Visible)
+	{
+		ImageMarkerIcon->SetVisibility(ESlateVisibility::Visible);
+	}
+}
+
 void UPlayerMarkerWidget::HidePlayerName()
 {
 	if (TextPlayerName && TextPlayerName->GetVisibility() != ESlateVisibility::Collapsed)
@@ -106,5 +114,13 @@ void UPlayerMarkerWidget::HideHealthBar()
 	if (SizeBoxHealthBar && SizeBoxHealthBar->GetVisibility() != ESlateVisibility::Collapsed)
 	{
 		SizeBoxHealthBar->SetVisibility(ESlateVisibility::Collapsed);
+	}
+}
+
+void UPlayerMarkerWidget::HideImageMarkerIcon()
+{
+	if (ImageMarkerIcon && ImageMarkerIcon->GetVisibility() != ESlateVisibility::Collapsed)
+	{
+		ImageMarkerIcon->SetVisibility(ESlateVisibility::Collapsed);
 	}
 }

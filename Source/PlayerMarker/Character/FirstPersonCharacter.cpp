@@ -162,7 +162,7 @@ void AFirstPersonCharacter::ServerRequestSpot_Implementation(FVector ViewportCen
 	/** Perform line trace */
 	FHitResult HitResult;
 	GetWorld()->LineTraceSingleByChannel(HitResult, Start, End, ECollisionChannel::ECC_Visibility);
-	DrawDebugLine(GetWorld(), Start, End, FColor(255, 0, 0), false, 5.0f, 0, 1.0f);
+	//DrawDebugLine(GetWorld(), Start, End, FColor(255, 0, 0), false, 5.0f, 0, 1.0f);
 
 	/** Check if hit actor is of class AFirstPersonCharacter and spot them */
 	if (HitResult.GetActor())

@@ -99,7 +99,36 @@ void UPlayerMarkerComponent::UpdatePlayerMarker(AFirstPersonCharacter*
 void UPlayerMarkerComponent::HandleDifferentTeam(AFirstPersonCharacter* 
 	LocallyControlledCharacter, AFirstPersonCharacter* OtherCharacter)
 {
-	if (PlayerMarkerWidget == nullptr) { return; }
+	if (PlayerMarkerWidget == nullptr || LocallyControlledCharacter->GetController() == nullptr) { return; }
+
+	/** Check if player is spotted and line of sight between the two characters exists */
+	if (bSpotted && LocallyControlledCharacter->GetController()->LineOfSightTo(OtherCharacter))
+	{
+		PlayerMarkerWidget->ShowImageMarkerIcon();
+
+		/** Distance between the two characters in meters rounded to int32 */
+		int32 Distance = FGenericPlatformMath::RoundToInt(CalculateDistance(
+			LocallyControlledCharacter->GetActorLocation(), OtherCharacter->GetActorLocation()));
+
+		/** Show player name and health bar if within max distance and being looked at by local character */
+		if (Distance < EnemyMaxDistance && LocalCharacterLookingAtOtherCharacter(OtherCharacter))
+		{
+			PlayerMarkerWidget->ShowPlayerName();
+			PlayerMarkerWidget->ShowHealthBar();
+		}
+		else
+		{
+			PlayerMarkerWidget->HidePlayerName();
+			PlayerMarkerWidget->HideHealthBar();
+		}
+	}
+	/** If not spotted or no line of sight exists hide player marker */
+	else
+	{
+		PlayerMarkerWidget->HidePlayerName();
+		PlayerMarkerWidget->HideHealthBar();
+		PlayerMarkerWidget->HideImageMarkerIcon();
+	}
 }
 
 void UPlayerMarkerComponent::HandleSameTeamDifferentSquad(AFirstPersonCharacter* 

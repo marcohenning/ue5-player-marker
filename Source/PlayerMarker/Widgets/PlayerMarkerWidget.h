@@ -73,7 +73,9 @@ public:
 	void ShowPlayerName();
 	void ShowDistance();
 	void ShowHealthBar();
+	void ShowImageMarkerIcon();
 	void HidePlayerName();
 	void HideDistance();
 	void HideHealthBar();
+	void HideImageMarkerIcon();
 };

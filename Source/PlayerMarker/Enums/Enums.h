@@ -29,5 +29,6 @@ enum class ETeamSort : uint8
 {
 	ETS_Enemy UMETA(DisplayName = "Enemy"),
 	ETS_Team UMETA(DisplayName = "Team"),
-	ETS_Squad UMETA(DisplayName = "Squad")
+	ETS_Squad UMETA(DisplayName = "Squad"),
+	ETS_All UMETA(DisplayName = "All")
 };

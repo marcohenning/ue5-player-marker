@@ -36,8 +36,9 @@ AFirstPersonCharacter::AFirstPersonCharacter()
 	PlayerMarkerComponent->PlayerMarkerWidgetComponent = PlayerMarkerWidgetComponent;
 
 	/** Set movement variables */
-	GetCharacterMovement()->MaxWalkSpeed = 600.f;
-	GetCharacterMovement()->AirControl = 1.f;
+	GetCharacterMovement()->MaxWalkSpeed = 500.0f;
+	GetCharacterMovement()->MaxAcceleration = 1500.0f;
+	GetCharacterMovement()->AirControl = 1.0f;
 
 	/** Let mesh block visibility channel to be able to hit character with line traces */
 	GetMesh()->SetCollisionResponseToChannel(ECollisionChannel::ECC_Visibility, ECollisionResponse::ECR_Block);

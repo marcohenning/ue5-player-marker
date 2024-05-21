@@ -18,13 +18,17 @@ void APlayerMarkerGameMode::PostLogin(APlayerController* NewPlayer)
 		/** Handle sorting players into teams and squads upon joining the game */
 		if (TeamSort == ETeamSort::ETS_Enemy)
 		{
-			InitializeDifferentTeam(PlayerMarkerGameState, PlayerMarkerPlayerState);
+			InitializeTypeEnemy(PlayerMarkerGameState, PlayerMarkerPlayerState);
 		}
 		else if (TeamSort == ETeamSort::ETS_Team)
 		{
-			InitializeSameTeamDifferentSquad(PlayerMarkerGameState, PlayerMarkerPlayerState);
+			InitializeTypeTeam(PlayerMarkerGameState, PlayerMarkerPlayerState);
 		}
-		else { InitializeSameTeamSameSquad(PlayerMarkerGameState, PlayerMarkerPlayerState); }
+		else if (TeamSort == ETeamSort::ETS_Squad)
+		{
+			InitializeTypeSquad(PlayerMarkerGameState, PlayerMarkerPlayerState);
+		}
+		else { InitializeTypeAll(PlayerMarkerGameState, PlayerMarkerPlayerState); }
 	}
 }
 
@@ -42,14 +46,11 @@ void APlayerMarkerGameMode::Logout(AController* Exiting)
 	}
 }
 
-void APlayerMarkerGameMode::InitializeDifferentTeam(APlayerMarkerGameState* PlayerMarkerGameState, 
+void APlayerMarkerGameMode::InitializeTypeEnemy(APlayerMarkerGameState* PlayerMarkerGameState,
 	APlayerMarkerPlayerState* PlayerMarkerPlayerState)
 {
 	/** Check if pointers are valid */
-	if (PlayerMarkerGameState == nullptr || PlayerMarkerPlayerState == nullptr)
-	{
-		return;
-	}
+	if (PlayerMarkerGameState == nullptr || PlayerMarkerPlayerState == nullptr) { return; }
 
 	/** Add first player to team a */
 	if (PlayerMarkerGameState->GetTeamPlayerCount(ETeam::ET_TeamA) == 0)
@@ -65,14 +66,11 @@ void APlayerMarkerGameMode::InitializeDifferentTeam(APlayerMarkerGameState* Play
 	}
 }
 
-void APlayerMarkerGameMode::InitializeSameTeamDifferentSquad(APlayerMarkerGameState* PlayerMarkerGameState, 
+void APlayerMarkerGameMode::InitializeTypeTeam(APlayerMarkerGameState* PlayerMarkerGameState,
 	APlayerMarkerPlayerState* PlayerMarkerPlayerState)
 {
 	/** Check if pointers are valid */
-	if (PlayerMarkerGameState == nullptr || PlayerMarkerPlayerState == nullptr)
-	{
-		return;
-	}
+	if (PlayerMarkerGameState == nullptr || PlayerMarkerPlayerState == nullptr) { return; }
 
 	/** Add first player to team a and squad alpha */
 	if (PlayerMarkerGameState->GetTeamPlayerCount(ETeam::ET_TeamA) == 0)
@@ -88,16 +86,39 @@ void APlayerMarkerGameMode::InitializeSameTeamDifferentSquad(APlayerMarkerGameSt
 	}
 }
 
-void APlayerMarkerGameMode::InitializeSameTeamSameSquad(APlayerMarkerGameState* PlayerMarkerGameState, 
+void APlayerMarkerGameMode::InitializeTypeSquad(APlayerMarkerGameState* PlayerMarkerGameState,
 	APlayerMarkerPlayerState* PlayerMarkerPlayerState)
 {
 	/** Check if pointers are valid */
-	if (PlayerMarkerGameState == nullptr || PlayerMarkerPlayerState == nullptr)
-	{
-		return;
-	}
+	if (PlayerMarkerGameState == nullptr || PlayerMarkerPlayerState == nullptr) { return; }
 
 	/** Add all players to team a and squad alpha */
 	PlayerMarkerGameState->AddPlayerToTeam(PlayerMarkerPlayerState, ETeam::ET_TeamA);
 	PlayerMarkerGameState->AddPlayerToSquad(PlayerMarkerPlayerState, ETeam::ET_TeamA, ESquadName::ESN_Alpha);
+}
+
+void APlayerMarkerGameMode::InitializeTypeAll(APlayerMarkerGameState* PlayerMarkerGameState, 
+	APlayerMarkerPlayerState* PlayerMarkerPlayerState)
+{
+	/** Check if pointers are valid */
+	if (PlayerMarkerGameState == nullptr || PlayerMarkerPlayerState == nullptr) { return; }
+
+	/** Add first two players to team a and squad alpha */
+	if (PlayerMarkerGameState->GetTeamPlayerCount(ETeam::ET_TeamA) < 2)
+	{
+		PlayerMarkerGameState->AddPlayerToTeam(PlayerMarkerPlayerState, ETeam::ET_TeamA);
+		PlayerMarkerGameState->AddPlayerToSquad(PlayerMarkerPlayerState, ETeam::ET_TeamA, ESquadName::ESN_Alpha);
+	}
+	/** Add third player to team a and squad bravo */
+	else if (PlayerMarkerGameState->GetTeamPlayerCount(ETeam::ET_TeamA) < 3)
+	{
+		PlayerMarkerGameState->AddPlayerToTeam(PlayerMarkerPlayerState, ETeam::ET_TeamA);
+		PlayerMarkerGameState->AddPlayerToSquad(PlayerMarkerPlayerState, ETeam::ET_TeamA, ESquadName::ESN_Bravo);
+	}
+	/** Add all other players to team b and squad alpha */
+	else
+	{
+		PlayerMarkerGameState->AddPlayerToTeam(PlayerMarkerPlayerState, ETeam::ET_TeamB);
+		PlayerMarkerGameState->AddPlayerToSquad(PlayerMarkerPlayerState, ETeam::ET_TeamB, ESquadName::ESN_Alpha);
+	}
 }

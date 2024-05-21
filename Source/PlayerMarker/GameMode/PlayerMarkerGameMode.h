@@ -29,10 +29,12 @@ private:
 	* Different hardcoded ways of sorting players into teams
 	* and squads for testing purposes.
 	*/
-	void InitializeDifferentTeam(APlayerMarkerGameState* PlayerMarkerGameState, 
+	void InitializeTypeEnemy(APlayerMarkerGameState* PlayerMarkerGameState, 
 		APlayerMarkerPlayerState* PlayerMarkerPlayerState);
-	void InitializeSameTeamDifferentSquad(APlayerMarkerGameState* PlayerMarkerGameState,
+	void InitializeTypeTeam(APlayerMarkerGameState* PlayerMarkerGameState,
 		APlayerMarkerPlayerState* PlayerMarkerPlayerState);
-	void InitializeSameTeamSameSquad(APlayerMarkerGameState* PlayerMarkerGameState,
+	void InitializeTypeSquad(APlayerMarkerGameState* PlayerMarkerGameState,
+		APlayerMarkerPlayerState* PlayerMarkerPlayerState);
+	void InitializeTypeAll(APlayerMarkerGameState* PlayerMarkerGameState,
 		APlayerMarkerPlayerState* PlayerMarkerPlayerState);
 };

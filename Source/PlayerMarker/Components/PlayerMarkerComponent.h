@@ -31,6 +31,12 @@ private:
 	UPROPERTY(Replicated)
 	bool bSpotted = false;
 
+	/** Timer for resetting the bSpotted flag */
+	FTimerHandle SpotTimer;
+
+	/** Duration players are spotted for */
+	float SpotDuration = 10.0f;
+
 	/**
 	* Variables used for calculating widget render scale based on distance
 	*/
@@ -79,4 +85,7 @@ private:
 	* Handles setting bSpotted to true and (re)starting the timer to reset it.
 	*/
 	void Spot();
+
+	/** Callback function for the timer resetting the bSpotted flag */
+	void SpotTimerFinished();
 };

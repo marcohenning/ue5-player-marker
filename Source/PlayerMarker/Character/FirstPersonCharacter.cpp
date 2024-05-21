@@ -39,6 +39,9 @@ AFirstPersonCharacter::AFirstPersonCharacter()
 	GetCharacterMovement()->MaxWalkSpeed = 600.f;
 	GetCharacterMovement()->AirControl = 1.f;
 
+	/** Let mesh block visibility channel to be able to hit character with line traces */
+	GetMesh()->SetCollisionResponseToChannel(ECollisionChannel::ECC_Visibility, ECollisionResponse::ECR_Block);
+
 	/** Set multiplayer replication frequencies */
 	NetUpdateFrequency = 66.f;
 	MinNetUpdateFrequency = 33.f;
@@ -133,8 +136,6 @@ void AFirstPersonCharacter::Look(const FInputActionValue& Value)
 
 void AFirstPersonCharacter::SpotButtonPressed()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Spot button pressed."));
-
 	/** Get viewport center */
 	FVector2D ViewportSize;
 	if (GEngine->GameViewport) { GEngine->GameViewport->GetViewportSize(ViewportSize); }
@@ -163,7 +164,17 @@ void AFirstPersonCharacter::ServerRequestSpot_Implementation(FVector ViewportCen
 	GetWorld()->LineTraceSingleByChannel(HitResult, Start, End, ECollisionChannel::ECC_Visibility);
 	DrawDebugLine(GetWorld(), Start, End, FColor(255, 0, 0), false, 5.0f, 0, 1.0f);
 
-	/** TODO: Check if a FirstPersonCharacter was hit and spot them */
+	/** Check if hit actor is of class AFirstPersonCharacter and spot them */
+	if (HitResult.GetActor())
+	{
+		AFirstPersonCharacter* HitCharacter = Cast<AFirstPersonCharacter>(HitResult.GetActor());
+
+		/** Spot only if the hit character is from the enemy team */
+		if (HitCharacter && HitCharacter->GetTeam() != GetTeam())
+		{
+			HitCharacter->GetPlayerMarkerComponent()->Spot();
+		}
+	}
 }
 
 ETeam AFirstPersonCharacter::GetTeam()

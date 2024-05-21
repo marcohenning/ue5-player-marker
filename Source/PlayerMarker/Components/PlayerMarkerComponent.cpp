@@ -6,6 +6,7 @@
 #include "Kismet/KismetMathLibrary.h"
 #include "Kismet/GameplayStatics.h"
 #include "Net/UnrealNetwork.h"
+#include "TimerManager.h"
 
 
 
@@ -99,6 +100,10 @@ void UPlayerMarkerComponent::HandleDifferentTeam(AFirstPersonCharacter*
 	LocallyControlledCharacter, AFirstPersonCharacter* OtherCharacter)
 {
 	if (PlayerMarkerWidget == nullptr) { return; }
+
+	/** Debugging */
+	if (bSpotted) { PlayerMarkerWidget->SetPlayerName("Spotted"); }
+	else { PlayerMarkerWidget->SetPlayerName("Unspotted."); }
 }
 
 void UPlayerMarkerComponent::HandleSameTeamDifferentSquad(AFirstPersonCharacter* 
@@ -159,5 +164,16 @@ void UPlayerMarkerComponent::CalculateWidgetSize(AFirstPersonCharacter*
 
 void UPlayerMarkerComponent::Spot()
 {
+	bSpotted = true;
 
+	/** Clear existing timer */
+	GetWorld()->GetTimerManager().ClearTimer(SpotTimer);
+
+	/** Start timer to reset bSpotted flag after spot duration */
+	GetWorld()->GetTimerManager().SetTimer(SpotTimer, this, &UPlayerMarkerComponent::SpotTimerFinished, SpotDuration);
+}
+
+void UPlayerMarkerComponent::SpotTimerFinished()
+{
+	bSpotted = false;
 }

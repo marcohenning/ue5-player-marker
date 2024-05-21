@@ -28,6 +28,7 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	ETeam GetTeam();
 	ESquadName GetSquad();
+	FORCEINLINE UPlayerMarkerComponent* GetPlayerMarkerComponent() const { return PlayerMarkerComponent; }
 
 protected:
 	virtual void BeginPlay() override;

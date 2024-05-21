@@ -70,8 +70,10 @@ public:
 	/**
 	* Functions to show and hide elements
 	*/
+	void ShowPlayerName();
 	void ShowDistance();
 	void ShowHealthBar();
+	void HidePlayerName();
 	void HideDistance();
 	void HideHealthBar();
 };

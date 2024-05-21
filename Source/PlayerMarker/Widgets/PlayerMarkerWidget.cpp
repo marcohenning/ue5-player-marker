@@ -61,6 +61,14 @@ void UPlayerMarkerWidget::SetIcon(UTexture2D* Icon)
 	}
 }
 
+void UPlayerMarkerWidget::ShowPlayerName()
+{
+	if (TextPlayerName && TextPlayerName->GetVisibility() != ESlateVisibility::Visible)
+	{
+		TextPlayerName->SetVisibility(ESlateVisibility::Visible);
+	}
+}
+
 void UPlayerMarkerWidget::ShowDistance()
 {
 	if (TextDistance && TextDistance->GetVisibility() != ESlateVisibility::Visible)
@@ -74,6 +82,14 @@ void UPlayerMarkerWidget::ShowHealthBar()
 	if (SizeBoxHealthBar && SizeBoxHealthBar->GetVisibility() != ESlateVisibility::Visible)
 	{
 		SizeBoxHealthBar->SetVisibility(ESlateVisibility::Visible);
+	}
+}
+
+void UPlayerMarkerWidget::HidePlayerName()
+{
+	if (TextPlayerName && TextPlayerName->GetVisibility() != ESlateVisibility::Collapsed)
+	{
+		TextPlayerName->SetVisibility(ESlateVisibility::Collapsed);
 	}
 }
 

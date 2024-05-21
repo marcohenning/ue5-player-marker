@@ -100,16 +100,28 @@ void UPlayerMarkerComponent::HandleDifferentTeam(AFirstPersonCharacter*
 	LocallyControlledCharacter, AFirstPersonCharacter* OtherCharacter)
 {
 	if (PlayerMarkerWidget == nullptr) { return; }
-
-	/** Debugging */
-	if (bSpotted) { PlayerMarkerWidget->SetPlayerName("Spotted"); }
-	else { PlayerMarkerWidget->SetPlayerName("Unspotted."); }
 }
 
 void UPlayerMarkerComponent::HandleSameTeamDifferentSquad(AFirstPersonCharacter* 
 	LocallyControlledCharacter, AFirstPersonCharacter* OtherCharacter)
 {
 	if (PlayerMarkerWidget == nullptr) { return; }
+
+	/** Distance between the two characters in meters rounded to int32 */
+	int32 Distance = FGenericPlatformMath::RoundToInt(CalculateDistance(
+		LocallyControlledCharacter->GetActorLocation(), OtherCharacter->GetActorLocation()));
+
+	/** Show player name and health bar if within max distance and being looked at by local character */
+	if (Distance < TeamMaxDistance && LocalCharacterLookingAtOtherCharacter(OtherCharacter))
+	{
+		PlayerMarkerWidget->ShowPlayerName();
+		PlayerMarkerWidget->ShowHealthBar();
+	}
+	else
+	{
+		PlayerMarkerWidget->HidePlayerName();
+		PlayerMarkerWidget->HideHealthBar();
+	}
 }
 
 void UPlayerMarkerComponent::HandleSameTeamSameSquad(AFirstPersonCharacter* 
@@ -160,6 +172,39 @@ void UPlayerMarkerComponent::CalculateWidgetSize(AFirstPersonCharacter*
 	}
 
 	PlayerMarkerWidget->SetRenderScale(FVector2D(RenderScale, RenderScale));
+}
+
+bool UPlayerMarkerComponent::LocalCharacterLookingAtOtherCharacter(AFirstPersonCharacter* OtherCharacter)
+{
+	/** Get viewport center */
+	FVector2D ViewportSize;
+	if (GEngine->GameViewport) { GEngine->GameViewport->GetViewportSize(ViewportSize); }
+	FVector2D ViewportCenter(ViewportSize.X / 2.0f, ViewportSize.Y / 2.0f);
+
+	/** Convert viewport center from screen space to world space */
+	FVector ViewportCenterWorldPosition;
+	FVector ViewportCenterWorldDirection;
+	bool bScreenToWorld = UGameplayStatics::DeprojectScreenToWorld(UGameplayStatics::GetPlayerController(
+		this, 0), ViewportCenter, ViewportCenterWorldPosition, ViewportCenterWorldDirection);
+
+	if (!bScreenToWorld) { return false; }
+
+	/** Start of the line trace offset by 1 meter to avoid hitting own mesh */
+	FVector Start = ViewportCenterWorldPosition + ViewportCenterWorldDirection * 100.0f;
+	/** End of the line trace 1000 meters from start */
+	FVector End = Start + ViewportCenterWorldDirection * 100000.0f;
+
+	/** Perform line trace */
+	FHitResult HitResult;
+	GetWorld()->LineTraceSingleByChannel(HitResult, Start, End, ECollisionChannel::ECC_Visibility);
+
+	/** Check if hit actor is equal to OtherCharacter */
+	if (HitResult.GetActor())
+	{
+		AFirstPersonCharacter* HitCharacter = Cast<AFirstPersonCharacter>(HitResult.GetActor());
+		if (HitCharacter && HitCharacter == OtherCharacter) { return true; }
+	}
+	return false;
 }
 
 void UPlayerMarkerComponent::Spot()

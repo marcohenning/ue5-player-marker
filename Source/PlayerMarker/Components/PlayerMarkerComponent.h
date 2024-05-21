@@ -45,6 +45,7 @@ private:
 	const float MinRenderScale = 0.333f;
 	const float MaxRenderScale = 1.0f;
 
+	const int32 TeamMaxDistance = 20;
 	const int32 SquadMaxHealthBarDistance = 15;
 
 	/** Player marker widget component */
@@ -79,6 +80,9 @@ private:
 	/** Calculates widget size based on distance to locally controlled player */
 	void CalculateWidgetSize(AFirstPersonCharacter* LocallyControlledCharacter, 
 		AFirstPersonCharacter* OtherCharacter);
+
+	/** Check if the locally controlled character is looking at the other character */
+	bool LocalCharacterLookingAtOtherCharacter(AFirstPersonCharacter* OtherCharacter);
 
 	/**
 	* Called by the server when this component's character is spotted.

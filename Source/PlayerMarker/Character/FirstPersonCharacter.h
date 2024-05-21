@@ -6,7 +6,6 @@
 #include "FirstPersonCharacter.generated.h"
 
 
-
 class APlayerMarkerPlayerState;
 class UCameraComponent;
 class UWidgetComponent;
@@ -16,7 +15,9 @@ class UInputAction;
 struct FInputActionValue;
 
 
-
+/**
+* Custom character using the default Unreal Engine 4 mannequin.
+*/
 UCLASS()
 class PLAYERMARKER_API AFirstPersonCharacter : public ACharacter
 {
@@ -26,6 +27,10 @@ public:
 	AFirstPersonCharacter();
 	virtual void Tick(float DeltaTime) override;
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+	/**
+	* Getters
+	*/
 	ETeam GetTeam();
 	ESquadName GetSquad();
 	FORCEINLINE UPlayerMarkerComponent* GetPlayerMarkerComponent() const { return PlayerMarkerComponent; }
@@ -87,7 +92,7 @@ private:
 	/** Called when the spot button is pressed */
 	void SpotButtonPressed();
 
-	/** Server rpc to validate spotting */
+	/** Server remote procedure call to validate spotting */
 	UFUNCTION(Server, Unreliable)
 	void ServerRequestSpot(FVector ViewportCenterWorldPosition, FVector ViewportCenterWorldDirection);
 };

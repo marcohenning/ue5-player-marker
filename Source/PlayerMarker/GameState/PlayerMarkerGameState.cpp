@@ -3,7 +3,6 @@
 #include "PlayerMarker/PlayerState/PlayerMarkerPlayerState.h"
 
 
-
 void APlayerMarkerGameState::InitializeSquads(ETeam Team)
 {
 	FSquad Squad;
@@ -44,17 +43,20 @@ void APlayerMarkerGameState::GetLifetimeReplicatedProps(TArray<FLifetimeProperty
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 
+	/** Register variables for replication */
 	DOREPLIFETIME(APlayerMarkerGameState, Players);
 	DOREPLIFETIME(APlayerMarkerGameState, Squads);
 }
 
 void APlayerMarkerGameState::AddPlayerToTeam(APlayerMarkerPlayerState* Player, ETeam Team)
 {
+	/** Construct FPlayerInformation struct and add it to players array */
 	FPlayerInformation PlayerInformation;
 	PlayerInformation.PlayerState = Player;
 	PlayerInformation.Team = Team;
 	Players.Emplace(PlayerInformation);
 
+	/** Set player's team */
 	Player->Team = Team;
 }
 

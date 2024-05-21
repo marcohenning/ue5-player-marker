@@ -5,7 +5,6 @@
 #include "Components/SizeBox.h"
 
 
-
 void UPlayerMarkerWidget::SetPlayerName(FString NewUsername)
 {
 	if (TextPlayerName)

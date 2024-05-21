@@ -9,7 +9,6 @@
 #include "TimerManager.h"
 
 
-
 UPlayerMarkerComponent::UPlayerMarkerComponent()
 {
 	PrimaryComponentTick.bCanEverTick = false;
@@ -19,6 +18,7 @@ void UPlayerMarkerComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 
+	/** Register variable for replication */
 	DOREPLIFETIME(UPlayerMarkerComponent, bSpotted);
 }
 
@@ -82,6 +82,7 @@ void UPlayerMarkerComponent::UpdatePlayerMarker(AFirstPersonCharacter*
 	/** Initialize player marker component */
 	if (!bPlayerMarkerInitialized)
 	{
+		/** Return if initializing failed due to other components not being initialized yet */
 		if (!InitializePlayerMarkerComponent(LocallyControlledCharacter, OtherCharacter)) { return; }
 	}
 

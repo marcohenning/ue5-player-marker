@@ -1,6 +1,9 @@
 #pragma once
 
 
+/**
+* Custom enums used in this project are declared here.
+*/
 
 UENUM()
 enum class ETeam : uint8

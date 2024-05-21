@@ -12,7 +12,6 @@
 #include "Blueprint/UserWidget.h"
 
 
-
 AFirstPersonCharacter::AFirstPersonCharacter()
 {
 	PrimaryActorTick.bCanEverTick = true;
@@ -111,6 +110,7 @@ void AFirstPersonCharacter::Move(const FInputActionValue& Value)
 {
 	FVector2D MovementVector = Value.Get<FVector2D>();
 
+	/** Default movement implementation */
 	if (GetController())
 	{
 		const FRotator Rotation = GetController()->GetControlRotation();
@@ -128,6 +128,7 @@ void AFirstPersonCharacter::Look(const FInputActionValue& Value)
 {
 	FVector2D LookVector = Value.Get<FVector2D>();
 
+	/** Default look implementation */
 	if (GetController())
 	{
 		AddControllerYawInput(LookVector.X);
@@ -183,6 +184,7 @@ ETeam AFirstPersonCharacter::GetTeam()
 	PlayerMarkerPlayerState = PlayerMarkerPlayerState == nullptr ? 
 		GetPlayerState<APlayerMarkerPlayerState>() : PlayerMarkerPlayerState;
 
+	/** If player state exists return team; otherwise return team none */
 	if (PlayerMarkerPlayerState)
 	{
 		return PlayerMarkerPlayerState->Team;
@@ -195,6 +197,7 @@ ESquadName AFirstPersonCharacter::GetSquad()
 	PlayerMarkerPlayerState = PlayerMarkerPlayerState == nullptr ?
 		GetPlayerState<APlayerMarkerPlayerState>() : PlayerMarkerPlayerState;
 
+	/** If player state exists return squad; otherwise return squad none */
 	if (PlayerMarkerPlayerState)
 	{
 		return PlayerMarkerPlayerState->Squad;

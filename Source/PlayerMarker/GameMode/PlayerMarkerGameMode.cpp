@@ -4,7 +4,6 @@
 #include "PlayerMarker/Enums/Enums.h"
 
 
-
 void APlayerMarkerGameMode::PostLogin(APlayerController* NewPlayer)
 {
 	Super::PostLogin(NewPlayer);

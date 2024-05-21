@@ -5,13 +5,15 @@
 #include "PlayerMarkerComponent.generated.h"
 
 
-
 class AFirstPersonCharacter;
 class UWidgetComponent;
 class UPlayerMarkerWidget;
 
 
-
+/**
+* Custom actor component added to the custom character.
+* Handles everything player marker related.
+*/
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class PLAYERMARKER_API UPlayerMarkerComponent : public UActorComponent
 {

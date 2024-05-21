@@ -5,14 +5,15 @@
 #include "PlayerMarkerWidget.generated.h"
 
 
-
 class UTextBlock;
 class UProgressBar;
 class UImage;
 class USizeBox;
 
 
-
+/**
+* Custom user widget used as parent class for WBP_PlayerMarker blueprint.
+*/
 UCLASS()
 class PLAYERMARKER_API UPlayerMarkerWidget : public UUserWidget
 {

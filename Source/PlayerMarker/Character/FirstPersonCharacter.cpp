@@ -26,9 +26,9 @@ AFirstPersonCharacter::AFirstPersonCharacter()
 	/** Set up player marker widget component */
 	PlayerMarkerWidgetComponent = CreateDefaultSubobject<UWidgetComponent>(TEXT("PlayerMarkerWidgetComponent"));
 	PlayerMarkerWidgetComponent->SetupAttachment(GetMesh(), FName("head"));
-	PlayerMarkerWidgetComponent->SetWorldLocation(FVector(30.0f, 0.0f, 0.0f));
+	PlayerMarkerWidgetComponent->SetWorldLocation(FVector(25.0f, 0.0f, 0.0f));
 	PlayerMarkerWidgetComponent->SetWidgetSpace(EWidgetSpace::Screen);
-	PlayerMarkerWidgetComponent->SetDrawAtDesiredSize(false);
+	PlayerMarkerWidgetComponent->SetDrawAtDesiredSize(true);
 
 	/** Set up player marker component */
 	PlayerMarkerComponent = CreateDefaultSubobject<UPlayerMarkerComponent>(TEXT("PlayerMarkerComponent"));
@@ -187,7 +187,6 @@ ETeam AFirstPersonCharacter::GetTeam()
 	{
 		return PlayerMarkerPlayerState->Team;
 	}
-
 	return ETeam::ET_TeamNone;
 }
 
@@ -200,6 +199,5 @@ ESquadName AFirstPersonCharacter::GetSquad()
 	{
 		return PlayerMarkerPlayerState->Squad;
 	}
-
 	return ESquadName::ESN_None;
 }

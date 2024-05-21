@@ -40,7 +40,7 @@ public:
 	UTexture2D* IconSquad;
 
 	/**
-	* Elements of the widget needed to be accessed through code
+	* Widget elements
 	*/
 	UPROPERTY(meta = (BindWidget))
 	UTextBlock* TextPlayerName;

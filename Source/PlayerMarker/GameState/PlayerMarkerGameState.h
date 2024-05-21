@@ -50,17 +50,11 @@ public:
 	void InitializeSquads(ETeam Team);
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 
-	UPROPERTY(ReplicatedUsing = OnRep_Players)
+	UPROPERTY(Replicated)
 	TArray<FPlayerInformation> Players;
 
-	UPROPERTY(ReplicatedUsing = OnRep_Squads)
+	UPROPERTY(Replicated)
 	TArray<FSquad> Squads;
-
-	UFUNCTION()
-	void OnRep_Players();
-
-	UFUNCTION()
-	void OnRep_Squads();
 
 	void AddPlayerToTeam(APlayerMarkerPlayerState* Player, ETeam Team);
 	void AddPlayerToSquad(APlayerMarkerPlayerState* Player, ETeam Team, ESquadName SquadName);

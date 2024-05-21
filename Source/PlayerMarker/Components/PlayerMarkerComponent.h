@@ -37,17 +37,10 @@ private:
 	/** Duration players are spotted for */
 	float SpotDuration = 10.0f;
 
-	/**
-	* Variables used for calculating widget render scale based on distance
-	*/
-	const float MinDistance = 0.0f;
-	const float MaxDistance = 40.0f;
-	const float MinRenderScale = 0.333f;
-	const float MaxRenderScale = 1.0f;
-
+	/** Constants for player marker handling */
 	const int32 EnemyMaxDistance = 10;
 	const int32 TeamMaxDistance = 20;
-	const int32 SquadMaxHealthBarDistance = 15;
+	const int32 SquadMaxDistance = 15;
 
 	/** Player marker widget component */
 	UPROPERTY()
@@ -68,19 +61,15 @@ private:
 	/**
 	* Functions to handle enemy, team mate and squad mate player marker
 	*/
-	void HandleDifferentTeam(AFirstPersonCharacter* LocallyControlledCharacter,
+	void HandleEnemy(AFirstPersonCharacter* LocallyControlledCharacter,
 		AFirstPersonCharacter* OtherCharacter);
-	void HandleSameTeamDifferentSquad(AFirstPersonCharacter* LocallyControlledCharacter,
+	void HandleTeam(AFirstPersonCharacter* LocallyControlledCharacter,
 		AFirstPersonCharacter* OtherCharacter);
-	void HandleSameTeamSameSquad(AFirstPersonCharacter* LocallyControlledCharacter,
+	void HandleSquad(AFirstPersonCharacter* LocallyControlledCharacter,
 		AFirstPersonCharacter* OtherCharacter);
 
 	/** Calculates distance in meters between two vectors */
 	float CalculateDistance(FVector Start, FVector End);
-
-	/** Calculates widget size based on distance to locally controlled player */
-	void CalculateWidgetSize(AFirstPersonCharacter* LocallyControlledCharacter, 
-		AFirstPersonCharacter* OtherCharacter);
 
 	/** Check if the locally controlled character is looking at the other character */
 	bool LocalCharacterLookingAtOtherCharacter(AFirstPersonCharacter* OtherCharacter);

@@ -31,9 +31,10 @@ bool UPlayerMarkerComponent::InitializePlayerMarkerComponent(AFirstPersonCharact
 	APlayerMarkerPlayerState* OtherCharacterPlayerState = OtherCharacter->
 		GetPlayerState<APlayerMarkerPlayerState>();
 
-	/** Return false if player state is nullptr or team is none */
+	/** Return false if player state is nullptr or team/squad is none */
 	if (OtherCharacterPlayerState == nullptr || LocallyControlledCharacter->GetTeam() == 
-		ETeam::ET_TeamNone || OtherCharacter->GetTeam() == ETeam::ET_TeamNone)
+		ETeam::ET_TeamNone || OtherCharacter->GetTeam() == ETeam::ET_TeamNone || LocallyControlledCharacter->
+		GetSquad() == ESquadName::ESN_None || OtherCharacter->GetSquad() == ESquadName::ESN_None)
 	{
 		return false;
 	}
@@ -89,14 +90,14 @@ void UPlayerMarkerComponent::UpdatePlayerMarker(AFirstPersonCharacter*
 	{
 		if (LocallyControlledCharacter->GetSquad() == OtherCharacter->GetSquad())
 		{
-			HandleSameTeamSameSquad(LocallyControlledCharacter, OtherCharacter);
+			HandleSquad(LocallyControlledCharacter, OtherCharacter);
 		}
-		else { HandleSameTeamDifferentSquad(LocallyControlledCharacter, OtherCharacter); }
+		else { HandleTeam(LocallyControlledCharacter, OtherCharacter); }
 	}
-	else { HandleDifferentTeam(LocallyControlledCharacter, OtherCharacter); }
+	else { HandleEnemy(LocallyControlledCharacter, OtherCharacter); }
 }
 
-void UPlayerMarkerComponent::HandleDifferentTeam(AFirstPersonCharacter* 
+void UPlayerMarkerComponent::HandleEnemy(AFirstPersonCharacter*
 	LocallyControlledCharacter, AFirstPersonCharacter* OtherCharacter)
 {
 	if (PlayerMarkerWidget == nullptr || LocallyControlledCharacter->GetController() == nullptr) { return; }
@@ -131,7 +132,7 @@ void UPlayerMarkerComponent::HandleDifferentTeam(AFirstPersonCharacter*
 	}
 }
 
-void UPlayerMarkerComponent::HandleSameTeamDifferentSquad(AFirstPersonCharacter* 
+void UPlayerMarkerComponent::HandleTeam(AFirstPersonCharacter*
 	LocallyControlledCharacter, AFirstPersonCharacter* OtherCharacter)
 {
 	if (PlayerMarkerWidget == nullptr) { return; }
@@ -153,7 +154,7 @@ void UPlayerMarkerComponent::HandleSameTeamDifferentSquad(AFirstPersonCharacter*
 	}
 }
 
-void UPlayerMarkerComponent::HandleSameTeamSameSquad(AFirstPersonCharacter* 
+void UPlayerMarkerComponent::HandleSquad(AFirstPersonCharacter*
 	LocallyControlledCharacter, AFirstPersonCharacter* OtherCharacter)
 {
 	if (PlayerMarkerWidget == nullptr) { return; }
@@ -163,7 +164,7 @@ void UPlayerMarkerComponent::HandleSameTeamSameSquad(AFirstPersonCharacter*
 		LocallyControlledCharacter->GetActorLocation(), OtherCharacter->GetActorLocation()));
 
 	/** Show health bar if close enough */
-	if (Distance < SquadMaxHealthBarDistance)
+	if (Distance < SquadMaxDistance)
 	{
 		PlayerMarkerWidget->ShowHealthBar();
 		PlayerMarkerWidget->HideDistance();
@@ -180,27 +181,6 @@ void UPlayerMarkerComponent::HandleSameTeamSameSquad(AFirstPersonCharacter*
 float UPlayerMarkerComponent::CalculateDistance(FVector Start, FVector End)
 {
 	return ((Start - End).Size() / 100.0f);
-}
-
-void UPlayerMarkerComponent::CalculateWidgetSize(AFirstPersonCharacter*
-	LocallyControlledCharacter, AFirstPersonCharacter* OtherCharacter)
-{
-	/** Distance between the two characters in meters */
-	float Distance = CalculateDistance(LocallyControlledCharacter->GetActorLocation(), 
-		OtherCharacter->GetActorLocation());
-
-	/** Calculating render scale based on distance */
-	float RenderScale;
-
-	if (Distance <= MinDistance) { RenderScale = MaxRenderScale; }
-	else if (Distance >= MaxDistance) { RenderScale = MinRenderScale; }
-	else
-	{
-		RenderScale = FMath::Lerp(MaxRenderScale, MinRenderScale, Distance / MaxDistance);
-		RenderScale = FMath::Clamp(RenderScale, MinRenderScale, MaxRenderScale);
-	}
-
-	PlayerMarkerWidget->SetRenderScale(FVector2D(RenderScale, RenderScale));
 }
 
 bool UPlayerMarkerComponent::LocalCharacterLookingAtOtherCharacter(AFirstPersonCharacter* OtherCharacter)

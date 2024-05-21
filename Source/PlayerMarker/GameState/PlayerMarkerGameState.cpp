@@ -48,16 +48,6 @@ void APlayerMarkerGameState::GetLifetimeReplicatedProps(TArray<FLifetimeProperty
 	DOREPLIFETIME(APlayerMarkerGameState, Squads);
 }
 
-void APlayerMarkerGameState::OnRep_Players()
-{
-
-}
-
-void APlayerMarkerGameState::OnRep_Squads()
-{
-
-}
-
 void APlayerMarkerGameState::AddPlayerToTeam(APlayerMarkerPlayerState* Player, ETeam Team)
 {
 	FPlayerInformation PlayerInformation;

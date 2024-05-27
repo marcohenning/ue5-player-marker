@@ -2,7 +2,7 @@
 
 A Battlefield 4 style player marker implemented in Unreal Engine 5 using C++.
 
---Main GIF here--
+![main showcase](GIFs/main.gif)
 
 ## About
 
@@ -14,29 +14,27 @@ This project replicates their player marker design and functionality as closely 
 * The enemy will be marked as spotted for all players, which means that any player from the opposing team will see the red colored player marker above their head
 * After 10 seconds, the player will be unspotted unless they get spotted again in which case the timer resets
 
---Spot GIF here--
-
 ## Enemy Player Marker
 * Red color
 * Unspotted players do not have player markers shown above their head
 * Rendered only if player is spotted and visible on screen (never through walls)
 * Player name and health bar only appear when looking directly at the player and distance is below threshold
 
---Enemy GIF here--
+![enemy showcase](GIFs/enemy.gif)
 
 ## Team Player Marker
 * Blue color
 * Rendered at all times (including through walls)
 * Player name and health bar only appear when looking directly at the player and distance is below threshold
 
---Team GIF here--
+![team showcase](GIFs/team.gif)
 
 ## Squad Player Marker
 * Green color
 * Rendered at all times (including through walls)
 * Health bar changes to distance (in meters) if distance is above threshold
 
---Squad GIF here--
+![squad showcase](GIFs/squad.gif)
 
 ## Implementation
 

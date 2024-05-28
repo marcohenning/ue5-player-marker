@@ -2,7 +2,7 @@
 
 A Battlefield 4 style player marker implemented in Unreal Engine 5 using C++.
 
-![main showcase](GIFs/main.gif)
+![Main](https://github.com/marcohenning/ue5-player-marker/assets/91918460/87e6c909-343c-4588-85a1-3b8d7b00de45)
 
 ## About
 
@@ -20,21 +20,21 @@ This project replicates their player marker design and functionality as closely 
 * Rendered only if player is spotted and visible on screen (never through walls)
 * Player name and health bar only appear when looking directly at the player and distance is below threshold
 
-![enemy showcase](GIFs/enemy.gif)
+![Enemy](https://github.com/marcohenning/ue5-player-marker/assets/91918460/95d187de-2bf5-4fe3-ac82-8e012fc7b09f)
 
 ## Team Player Marker
 * Blue color
 * Rendered at all times (including through walls)
 * Player name and health bar only appear when looking directly at the player and distance is below threshold
 
-![team showcase](GIFs/team.gif)
+![Team](https://github.com/marcohenning/ue5-player-marker/assets/91918460/a434b3d2-bf93-42fd-9b91-de8e347512de)
 
 ## Squad Player Marker
 * Green color
 * Rendered at all times (including through walls)
 * Health bar changes to distance (in meters) if distance is above threshold
 
-![squad showcase](GIFs/squad.gif)
+![Squad](https://github.com/marcohenning/ue5-player-marker/assets/91918460/85d3ea88-48f8-48d1-81f8-4338cc9947c8)
 
 ## Implementation
 

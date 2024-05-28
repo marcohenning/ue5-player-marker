@@ -20,21 +20,21 @@ This project replicates their player marker design and functionality as closely 
 * Rendered only if player is spotted and visible on screen (never through walls)
 * Player name and health bar only appear when looking directly at the player and distance is below threshold
 
-![Enemy](https://github.com/marcohenning/ue5-player-marker/assets/91918460/95d187de-2bf5-4fe3-ac82-8e012fc7b09f)
+https://github.com/marcohenning/ue5-player-marker/assets/91918460/95d187de-2bf5-4fe3-ac82-8e012fc7b09f
 
 ## Team Player Marker
 * Blue color
 * Rendered at all times (including through walls)
 * Player name and health bar only appear when looking directly at the player and distance is below threshold
 
-![Team](https://github.com/marcohenning/ue5-player-marker/assets/91918460/a434b3d2-bf93-42fd-9b91-de8e347512de)
+https://github.com/marcohenning/ue5-player-marker/assets/91918460/a434b3d2-bf93-42fd-9b91-de8e347512de
 
 ## Squad Player Marker
 * Green color
 * Rendered at all times (including through walls)
 * Health bar changes to distance (in meters) if distance is above threshold
 
-![Squad](https://github.com/marcohenning/ue5-player-marker/assets/91918460/85d3ea88-48f8-48d1-81f8-4338cc9947c8)
+https://github.com/marcohenning/ue5-player-marker/assets/91918460/85d3ea88-48f8-48d1-81f8-4338cc9947c8
 
 ## Implementation
 
